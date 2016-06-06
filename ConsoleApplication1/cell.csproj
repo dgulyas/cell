@@ -44,8 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Board.cs" />
+    <Compile Include="bots\BotOne.cs" />
     <Compile Include="Fort.cs" />
     <Compile Include="GuyGroup.cs" />
+    <Compile Include="bots\IBot.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Program.cs" />
