@@ -25,18 +25,16 @@ namespace ConsoleApplication1
 			Player tmpPlayer = null;
 			foreach (var fort in Forts)
 			{
-				if (fort.FortOwner != null)
+				if (fort.FortOwner == null) continue;
+				if (tmpPlayer == null)
 				{
-					if (tmpPlayer == null)
+					tmpPlayer = fort.FortOwner;
+				}
+				else
+				{
+					if (fort.FortOwner != tmpPlayer)
 					{
-						tmpPlayer = fort.FortOwner;
-					}
-					else
-					{
-						if (fort.FortOwner != tmpPlayer)
-						{
-							return null;
-						}
+						return null;
 					}
 				}
 			}
@@ -50,12 +48,12 @@ namespace ConsoleApplication1
 
 		public void MoveGuyGroups()
 		{
-			foreach (var travelingGG in TravelingGGs)
+			foreach (var travelingGuyGroup in TravelingGGs)
 			{
-				if(travelingGG.TicksTillFinished < 1){
-					travelingGG.EnterFort();
+				if(travelingGuyGroup.TicksTillFinished < 1){
+					travelingGuyGroup.EnterFort();
 				}else{
-					travelingGG.TicksTillFinished--;
+					travelingGuyGroup.TicksTillFinished--;
 				}
 			}
 		}

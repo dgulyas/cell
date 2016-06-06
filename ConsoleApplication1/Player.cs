@@ -2,6 +2,6 @@
 {
 	class Player
 	{
-		public string name; //This is the unique id.
+		public string Name; //This is the unique id.
 	}
 }
