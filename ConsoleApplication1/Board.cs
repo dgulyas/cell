@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ConsoleApplication1
 {
@@ -56,6 +57,16 @@ namespace ConsoleApplication1
 					travelingGuyGroup.TicksTillFinished--;
 				}
 			}
+		}
+
+		public List<Fort> GetFriendlyForts(Player player)
+		{
+			return Forts.Where(f => f.FortOwner == player).ToList();
+		}
+
+		public List<Fort> GetEnemyForts(Player player)
+		{
+			return Forts.Where(f => f.FortOwner != player).ToList();
 		}
 	}
 }

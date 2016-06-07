@@ -51,12 +51,19 @@ namespace ConsoleApplication1
 					{
 						//need to verify that the move is valid
 
+						//if the source fort isn't owner by the bot
+						if (botMove.Item1.FortOwner != bot.GetPlayer())
+						{
+							continue;
+						}
+						
+						//if no guys are being moved
+						if (botMove.Item3 < 1)
+						{
+							continue;
+						}
 
-
-
-
-
-
+						botMove.Item1.SendGuyGroup(botMove.Item2, botMove.Item3);
 					}
 				}
 			}
