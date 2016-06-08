@@ -4,7 +4,6 @@
 	{
 		public Point Location;
 		public Player FortOwner;
-		public int UnitSpeed;
 		public int BirthSpeed;
 
 		public int NumDefendingGuys;
@@ -46,6 +45,9 @@
 			}
 		}
 
-
+		public string GetDescription()
+		{
+			return $"X:{Location.X} Y:{Location.Y} NumGuys:{NumDefendingGuys} Owner:{FortOwner?.Name ?? "Unowned"}";
+		}
 	}
 }

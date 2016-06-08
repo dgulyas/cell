@@ -26,8 +26,10 @@ namespace ConsoleApplication1.bots
 			var enemyForts = board.GetEnemyForts(m_player);
 			foreach (var fort in friendlyForts)
 			{
-				if(fort.NumDefendingGuys > 0)
-				moves.Add(new Tuple<Fort, Fort, int>(fort, enemyForts[0], fort.NumDefendingGuys));
+				if (fort.NumDefendingGuys > 0)
+				{
+					moves.Add(new Tuple<Fort, Fort, int>(fort, enemyForts[0], fort.NumDefendingGuys));
+				}
 			}
 
 			return moves;

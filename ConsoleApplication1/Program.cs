@@ -8,25 +8,26 @@ namespace ConsoleApplication1
 	{
 		static void Main()
 		{
-			var player1 = new Player { Name = "p1" };
-			var player2 = new Player { Name = "p2" };
-
 			var bots = new List<IBot>();
+
 			var bot1 = new BotOne();
+			var player1 = new Player { Name = "p1" };
 			bot1.SetPlayer(player1);
-			var bot2 = new BotOne();
-			bot2.SetPlayer(player2);
 			bots.Add(bot1);
+
+			var bot2 = new DoNothingBot();
+			var player2 = new Player { Name = "p2" };
+			bot2.SetPlayer(player2);
 			bots.Add(bot2);
 
 			var board = new Board();
 			board.AddPlayer(player1);
 			board.AddPlayer(player2);
 
-			var fortUpperRight = new Fort { Location = new Point { X = 80, Y = 80 }, BirthSpeed = 5, UnitSpeed = 10, FortOwner = player2 };
-			var fortUpperLeft = new Fort { Location = new Point { X = 20, Y = 80 }, BirthSpeed = 5, UnitSpeed = 10 };
-			var fortLowerRight = new Fort { Location = new Point { X = 80, Y = 20 }, BirthSpeed = 5, UnitSpeed = 10 };
-			var fortLowerLeft = new Fort { Location = new Point { X = 20, Y = 20 }, BirthSpeed = 5, UnitSpeed = 10, FortOwner = player1 };
+			var fortUpperRight = new Fort { Location = new Point { X = 8, Y = 8 }, BirthSpeed = 0, FortOwner = player2 };
+			var fortUpperLeft = new Fort { Location = new Point { X = 2, Y = 8 }, BirthSpeed = 0};
+			var fortLowerRight = new Fort { Location = new Point { X = 8, Y = 2 }, BirthSpeed = 0};
+			var fortLowerLeft = new Fort { Location = new Point { X = 2, Y = 2 }, BirthSpeed = 5, FortOwner = player1 };
 			board.AddFort(fortUpperRight);
 			board.AddFort(fortUpperLeft);
 			board.AddFort(fortLowerRight);
@@ -40,9 +41,6 @@ namespace ConsoleApplication1
 			{
 				board.CreateGuys();
 				board.MoveGuyGroups();
-
-
-				winner = board.GetTheWinner();
 
 				foreach (var bot in bots)
 				{
@@ -63,11 +61,18 @@ namespace ConsoleApplication1
 							continue;
 						}
 
-						botMove.Item1.SendGuyGroup(botMove.Item2, botMove.Item3);
+						board.TravelingGGs.Add(botMove.Item1.SendGuyGroup(botMove.Item2, botMove.Item3));
 					}
 				}
+				winner = board.GetTheWinner();
 			}
-			Console.WriteLine("The Winner is " + winner);
+			Console.WriteLine("The Winner is " + winner.Name);
+			foreach (var fort in board.Forts)
+			{
+				Console.WriteLine(fort.GetDescription());
+			}
+
+			Console.ReadLine();
 		}
 	}
 }

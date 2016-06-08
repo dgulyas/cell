@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Board.cs" />
     <Compile Include="bots\BotOne.cs" />
+    <Compile Include="bots\DoNothingBot.cs" />
     <Compile Include="Fort.cs" />
     <Compile Include="GuyGroup.cs" />
     <Compile Include="bots\IBot.cs" />
