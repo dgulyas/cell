@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ConsoleApplication1.bots
 {
+	//Send all available guys to the first enemy fort, every tick.
 	public class BotOne : IBot
 	{
 		private Player m_player;
-
 
 		public void SetPlayer(Player player)
 		{
@@ -18,9 +17,9 @@ namespace ConsoleApplication1.bots
 			return m_player;
 		}
 
-		List<Tuple<Fort, Fort, int>> IBot.GetMoves(Board board)
+		List<Move> IBot.GetMoves(Board board)
 		{
-			var moves = new List<Tuple<Fort, Fort, int>>();
+			var moves = new List<Move>();
 
 			var friendlyForts = AiHelper.GetFriendlyForts(m_player, board);
 			var enemyForts = AiHelper.GetEnemyForts(m_player, board);
@@ -31,7 +30,7 @@ namespace ConsoleApplication1.bots
 				{
 					if (fort.NumDefendingGuys > 0)
 					{
-						moves.Add(new Tuple<Fort, Fort, int>(fort, enemyForts[0], fort.NumDefendingGuys));
+						moves.Add(new Move(fort, enemyForts[0], fort.NumDefendingGuys));
 					}
 				}
 			}

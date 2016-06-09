@@ -8,7 +8,6 @@ namespace ConsoleApplication1
 	{
 		static void Main()
 		{
-			var turn = 0;
 			var bots = new List<IBot>();
 
 			var bot1 = new BotOne();
@@ -49,21 +48,21 @@ namespace ConsoleApplication1
 						//need to verify that the move is valid
 
 						//if the source fort isn't owner by the bot
-						if (botMove.Item1.FortOwner != bot.GetPlayer())
+						if (botMove.Source.FortOwner != bot.GetPlayer())
 						{
 							continue;
 						}
 						
 						//if no guys are being moved
-						if (botMove.Item3 < 1)
+						if (botMove.NumGuys < 1)
 						{
 							continue;
 						}
 
-						board.TravelingGGs.Add(botMove.Item1.SendGuyGroup(botMove.Item2, botMove.Item3));
+						board.TravelingGGs.Add(botMove.Source.SendGuyGroup(botMove.Dest, botMove.NumGuys));
 					}
 				}
-				Console.WriteLine($"{Environment.NewLine}Turn:{++turn}");
+				Console.WriteLine($"{Environment.NewLine}Turn:{board.Turn++}");
 				PrintGameState(board);
 				winner = board.GetTheWinner();
 			}

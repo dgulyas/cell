@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ConsoleApplication1.bots
 {
+	//This bot does nothing.
 	public class DoNothingBot : IBot
 	{
 		private Player m_player;
 
-		public List<Tuple<Fort, Fort, int>> GetMoves(Board board)
+		public List<Move> GetMoves(Board board)
 		{
-			return new List<Tuple<Fort, Fort, int>>();
+			return new List<Move>();
 		}
 
 		public void SetPlayer(Player player)

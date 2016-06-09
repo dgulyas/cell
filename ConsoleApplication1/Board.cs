@@ -5,9 +5,15 @@ namespace ConsoleApplication1
 {
 	public class Board
 	{
+		public int Turn;
 		public List<Fort> Forts = new List<Fort>();
 		public List<Player> Players = new List<Player>();
 		public List<GuyGroup> TravelingGGs = new List<GuyGroup>();
+
+		public Board()
+		{
+			Turn = 1;
+		}
 
 		public void AddFort(Fort fort)
 		{
