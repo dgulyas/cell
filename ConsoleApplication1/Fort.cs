@@ -1,12 +1,14 @@
 ﻿namespace ConsoleApplication1
 {
-	class Fort
+	public class Fort
 	{
 		public Point Location;
 		public Player FortOwner;
 		public int BirthSpeed;
 
 		public int NumDefendingGuys;
+
+		public string ID => Location.GetDiscription();
 
 		public void CreateGuys()
 		{
@@ -47,7 +49,7 @@
 
 		public string GetDescription()
 		{
-			return $"X:{Location.X} Y:{Location.Y} NumGuys:{NumDefendingGuys} Owner:{FortOwner?.Name ?? "Unowned"}";
+			return $"Fort -> X:{Location.X} Y:{Location.Y} NumGuys:{NumDefendingGuys} Owner:{FortOwner?.Name ?? "Unowned"}";
 		}
 	}
 }

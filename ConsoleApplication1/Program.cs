@@ -8,6 +8,7 @@ namespace ConsoleApplication1
 	{
 		static void Main()
 		{
+			var turn = 0;
 			var bots = new List<IBot>();
 
 			var bot1 = new BotOne();
@@ -34,8 +35,6 @@ namespace ConsoleApplication1
 			board.AddFort(fortLowerLeft);
 
 			var winner = board.GetTheWinner();
-
-
 
 			while (winner == null)
 			{
@@ -64,15 +63,27 @@ namespace ConsoleApplication1
 						board.TravelingGGs.Add(botMove.Item1.SendGuyGroup(botMove.Item2, botMove.Item3));
 					}
 				}
+				Console.WriteLine($"{Environment.NewLine}Turn:{++turn}");
+				PrintGameState(board);
 				winner = board.GetTheWinner();
 			}
 			Console.WriteLine("The Winner is " + winner.Name);
+			
+
+			Console.ReadLine();
+		}
+
+		public static void PrintGameState(Board board)
+		{
 			foreach (var fort in board.Forts)
 			{
 				Console.WriteLine(fort.GetDescription());
 			}
 
-			Console.ReadLine();
+			foreach (var gg in board.TravelingGGs)
+			{
+				Console.WriteLine(gg.GetDescription());
+			}
 		}
 	}
 }

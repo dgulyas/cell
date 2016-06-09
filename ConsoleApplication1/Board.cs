@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ConsoleApplication1
 {
-	class Board
+	public class Board
 	{
 		public List<Fort> Forts = new List<Fort>();
 		public List<Player> Players = new List<Player>();
@@ -49,24 +49,22 @@ namespace ConsoleApplication1
 
 		public void MoveGuyGroups()
 		{
+			var ggsToRemove = new List<GuyGroup>();
 			foreach (var travelingGuyGroup in TravelingGGs)
 			{
 				if(travelingGuyGroup.TicksTillFinished < 1){
 					travelingGuyGroup.EnterFort();
+					ggsToRemove.Add(travelingGuyGroup);
 				}else{
 					travelingGuyGroup.TicksTillFinished--;
 				}
 			}
+
+			foreach (var guyGroup in ggsToRemove)
+			{
+				TravelingGGs.Remove(guyGroup);
+			}
 		}
 
-		public List<Fort> GetFriendlyForts(Player player)
-		{
-			return Forts.Where(f => f.FortOwner == player).ToList();
-		}
-
-		public List<Fort> GetEnemyForts(Player player)
-		{
-			return Forts.Where(f => f.FortOwner != player).ToList();
-		}
 	}
 }

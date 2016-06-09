@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AiHelper.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="bots\BotOne.cs" />
     <Compile Include="bots\DoNothingBot.cs" />

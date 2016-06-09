@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApplication1.bots
 {
-	class DoNothingBot : IBot
+	public class DoNothingBot : IBot
 	{
 		private Player m_player;
 

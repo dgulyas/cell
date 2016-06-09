@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ConsoleApplication1.bots
 {
-	interface IBot
+	public interface IBot
 	{
 		//From Fort, To Fort, Num Guys
 		List<Tuple<Fort, Fort, int>> GetMoves(Board board);

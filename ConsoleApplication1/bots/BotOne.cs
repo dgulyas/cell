@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ConsoleApplication1.bots
 {
-	class BotOne : IBot
+	public class BotOne : IBot
 	{
 		private Player m_player;
 
@@ -22,13 +22,17 @@ namespace ConsoleApplication1.bots
 		{
 			var moves = new List<Tuple<Fort, Fort, int>>();
 
-			var friendlyForts = board.GetFriendlyForts(m_player);
-			var enemyForts = board.GetEnemyForts(m_player);
-			foreach (var fort in friendlyForts)
+			var friendlyForts = AiHelper.GetFriendlyForts(m_player, board);
+			var enemyForts = AiHelper.GetEnemyForts(m_player, board);
+
+			if (enemyForts.Count > 0)
 			{
-				if (fort.NumDefendingGuys > 0)
+				foreach (var fort in friendlyForts)
 				{
-					moves.Add(new Tuple<Fort, Fort, int>(fort, enemyForts[0], fort.NumDefendingGuys));
+					if (fort.NumDefendingGuys > 0)
+					{
+						moves.Add(new Tuple<Fort, Fort, int>(fort, enemyForts[0], fort.NumDefendingGuys));
+					}
 				}
 			}
 

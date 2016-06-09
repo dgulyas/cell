@@ -12,5 +12,10 @@ namespace ConsoleApplication1
 			double dY = Y - dest.Y;
 			return Math.Sqrt(dX * dX + dY * dY);
 		}
+
+		public string GetDiscription()
+		{
+			return $"X:{X} Y:{Y}";
+		}
 	}
 }
