@@ -72,5 +72,13 @@ namespace ConsoleApplication1
 			}
 		}
 
+		public void DoMove(Move move, Player player)
+		{
+			if (move.Source.FortOwner == player && move.NumGuys > 0 && move.Source.NumDefendingGuys >= move.NumGuys)
+			{
+				TravelingGGs.Add(move.Source.SendGuyGroup(move.Dest, move.NumGuys));
+			}
+		}
+
 	}
 }

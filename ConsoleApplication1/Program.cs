@@ -42,32 +42,14 @@ namespace ConsoleApplication1
 
 				foreach (var bot in bots)
 				{
-					var botMoves = bot.GetMoves(board);
-					foreach (var botMove in botMoves)
-					{
-						//need to verify that the move is valid
-
-						//if the source fort isn't owner by the bot
-						if (botMove.Source.FortOwner != bot.GetPlayer())
-						{
-							continue;
-						}
-						
-						//if no guys are being moved
-						if (botMove.NumGuys < 1)
-						{
-							continue;
-						}
-
-						board.TravelingGGs.Add(botMove.Source.SendGuyGroup(botMove.Dest, botMove.NumGuys));
-					}
+					bot.Do(board);
 				}
+
 				Console.WriteLine($"{Environment.NewLine}Turn:{board.Turn++}");
 				PrintGameState(board);
 				winner = board.GetTheWinner();
 			}
 			Console.WriteLine("The Winner is " + winner.Name);
-			
 
 			Console.ReadLine();
 		}

@@ -17,10 +17,8 @@ namespace ConsoleApplication1.bots
 			return m_player;
 		}
 
-		List<Move> IBot.GetMoves(Board board)
+		void IBot.Do(Board board)
 		{
-			var moves = new List<Move>();
-
 			var friendlyForts = AiHelper.GetFriendlyForts(m_player, board);
 			var enemyForts = AiHelper.GetEnemyForts(m_player, board);
 
@@ -30,12 +28,11 @@ namespace ConsoleApplication1.bots
 				{
 					if (fort.NumDefendingGuys > 0)
 					{
-						moves.Add(new Move(fort, enemyForts[0], fort.NumDefendingGuys));
+						board.DoMove(new Move(fort, enemyForts[0], fort.NumDefendingGuys), m_player);
 					}
 				}
 			}
 
-			return moves;
 		}
 
 	}

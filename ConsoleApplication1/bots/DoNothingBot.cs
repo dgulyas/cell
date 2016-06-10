@@ -7,9 +7,9 @@ namespace ConsoleApplication1.bots
 	{
 		private Player m_player;
 
-		public List<Move> GetMoves(Board board)
+		public void Do(Board board)
 		{
-			return new List<Move>();
+
 		}
 
 		public void SetPlayer(Player player)
