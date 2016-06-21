@@ -1,4 +1,4 @@
-﻿namespace ConsoleApplication1.bots
+﻿namespace Cell.bots
 {
 	public interface IBot
 	{

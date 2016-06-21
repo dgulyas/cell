@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ConsoleApplication1.bots
+namespace Cell.bots
 {
 	//This bot does nothing.
 	public class DoNothingBot : IBot

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ConsoleApplication1.bots
+namespace Cell.bots
 {
 	//Send all available guys to the first enemy fort, every tick.
 	public class BotOne : IBot

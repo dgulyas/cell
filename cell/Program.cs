@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using ConsoleApplication1.bots;
+using Cell.bots;
 
-namespace ConsoleApplication1
+namespace Cell
 {
 	class Program
 	{

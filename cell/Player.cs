@@ -1,4 +1,4 @@
-﻿namespace ConsoleApplication1
+﻿namespace Cell
 {
 	public class Player
 	{
