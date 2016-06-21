@@ -48,8 +48,11 @@
     <Compile Include="bots\BotOne.cs" />
     <Compile Include="bots\DoNothingBot.cs" />
     <Compile Include="Fort.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="GuyGroup.cs" />
     <Compile Include="bots\IBot.cs" />
+    <Compile Include="Map.cs" />
+    <Compile Include="MapCatalog.cs" />
     <Compile Include="Move.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Point.cs" />
