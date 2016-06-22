@@ -29,23 +29,12 @@ namespace Cell
 		//Returns the winning player, otherwise null.
 		public Player GetTheWinner()
 		{
-			Player tmpPlayer = null;
-			foreach (var fort in Forts)
+			var thing = Forts.Select(f => f.FortOwner).Where(fo => fo != null).Distinct().ToList();
+			if (thing.Count() == 1)
 			{
-				if (fort.FortOwner == null) continue;
-				if (tmpPlayer == null)
-				{
-					tmpPlayer = fort.FortOwner;
-				}
-				else
-				{
-					if (fort.FortOwner != tmpPlayer)
-					{
-						return null;
-					}
-				}
+				return thing.First();
 			}
-			return tmpPlayer;
+			return null;
 		}
 
 		public void CreateGuys()
