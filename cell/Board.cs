@@ -7,7 +7,6 @@ namespace Cell
 	{
 		public int Turn;
 		public List<Fort> Forts = new List<Fort>();
-		public List<Player> Players = new List<Player>();
 		public List<GuyGroup> TravelingGGs = new List<GuyGroup>();
 
 		public Board()
@@ -19,12 +18,6 @@ namespace Cell
 		{
 			Forts.Add(fort);
 		}
-
-		public void AddPlayer(Player player)
-		{
-			Players.Add(player);
-		}
-
 
 		//Returns the winning player, otherwise null.
 		public Player GetTheWinner()

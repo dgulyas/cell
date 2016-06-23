@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Cell.bots;
 
 namespace Cell
@@ -32,7 +31,6 @@ namespace Cell
 
 			var board = new Board
 			{
-				Players = m_map.Players,
 				Forts = m_map.Forts
 			};
 
