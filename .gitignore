@@ -24,3 +24,6 @@ NunitOutputGui.xml
 resultsUnitTests.xml
 resultsUnitTestsAdmin.xml
 *.VisualState.xml
+
+#package binaries
+packages/
