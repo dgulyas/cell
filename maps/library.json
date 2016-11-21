@@ -1,0 +1,21 @@
+{
+	"fourFortsSquare":{
+	   "Forts":[
+		  {"Location":{"X":8,"Y":8}, "FortOwner":{"Name":"p2"}, "BirthSpeed":0, "NumDefendingGuys":0},
+		  {"Location":{"X":2,"Y":8}, "FortOwner":null, "BirthSpeed":0, "NumDefendingGuys":0},
+		  {"Location":{"X":8,"Y":2}, "FortOwner":null, "BirthSpeed":0, "NumDefendingGuys":0},
+		  {"Location":{"X":2,"Y":2}, "FortOwner":{"Name":"p1"}, "BirthSpeed":5, "NumDefendingGuys":0}
+	   ],
+	   "Players":[{"Name":"p2"},{"Name":"p1"}],
+	   "NumPlayers":2
+	},
+	"threeFortsLine":{
+	   "Forts":[
+		  {"Location":{"X":8,"Y":8}, "FortOwner":{"Name":"p2"}, "BirthSpeed":0, "NumDefendingGuys":0},
+		  {"Location":{"X":5,"Y":8}, "FortOwner":null, "BirthSpeed":0, "NumDefendingGuys":0},
+		  {"Location":{"X":2,"Y":8}, "FortOwner":{"Name":"p1"}, "BirthSpeed":5, "NumDefendingGuys":0}
+	   ],
+	   "Players":[{"Name":"p2"},{"Name":"p1"}],
+	   "NumPlayers":2
+	}
+}

@@ -1,4 +1,6 @@
-﻿namespace Cell
+﻿using Newtonsoft.Json;
+
+namespace Cell
 {
 	public class Fort
 	{
@@ -8,6 +10,7 @@
 
 		public int NumDefendingGuys;
 
+		[JsonIgnoreAttribute]
 		public string ID => Location.GetDiscription();
 
 		public void CreateGuys()

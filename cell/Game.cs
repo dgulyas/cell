@@ -22,6 +22,7 @@ namespace Cell
 			if (bots.Count < m_map.Players.Count)
 			{
 				Console.WriteLine("The selected map doesn't have enough player starting positions.");
+				Environment.Exit(0);
 			}
 
 			for (int i = 0; i < bots.Count; i++)
