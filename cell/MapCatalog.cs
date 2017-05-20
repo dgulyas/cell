@@ -1,10 +1,6 @@
-﻿//I want to store these as json files instead of in functions, but this will work for now.
-//I just need something that will return a Map instance.
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using NUnit.Framework.Internal.Commands;
 
 namespace Cell
 {
@@ -52,8 +48,7 @@ namespace Cell
 				new Fort {Location = new Point {X = 8, Y = 2}, BirthSpeed = 0},
 				new Fort {Location = new Point {X = 2, Y = 2}, BirthSpeed = 5, FortOwner = player1}
 			};
-			var map = new Map();
-			map.Forts = forts;
+			var map = new Map {Forts = forts};
 			return map;
 		}
 	}

@@ -10,7 +10,7 @@ namespace Cell
 		{
 			var options = new Options();
 			CommandLine.Parser.Default.ParseArguments(args, options);
-	        CheckOptions(options);
+			CheckOptions(options);
 
 			MapCatalog.LoadMaps(options.MapLibrary);
 			var map = MapCatalog.GetMap(options.MapName);
@@ -18,26 +18,26 @@ namespace Cell
 			game.RunGame();
 		}
 
-	    public static void CheckOptions(Options options)
-	    {
-            if (options.Help)
-            {
-                Console.Write(options.GetUsage());
-                Environment.Exit(0);
-            }
+		public static void CheckOptions(Options options)
+		{
+			if (options.Help)
+			{
+				Console.Write(options.GetUsage());
+				Environment.Exit(0);
+			}
 
-            if (options.MapLibrary == null)
-            {
-                Console.WriteLine("The -l option must be defined.");
-                Environment.Exit(0);
-            }
+			if (options.MapLibrary == null)
+			{
+				Console.WriteLine("The -l option must be defined.");
+				Environment.Exit(0);
+			}
 
-            if (options.MapName == null)
-            {
-                Console.WriteLine("The -m option must be defined.");
-                Environment.Exit(0);
-            }
-        }
+			if (options.MapName == null)
+			{
+				Console.WriteLine("The -m option must be defined.");
+				Environment.Exit(0);
+			}
+		}
 
 	}
 }
