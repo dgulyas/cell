@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using Nancy.Diagnostics;
 
 namespace Cell
 {
@@ -32,5 +34,6 @@ namespace Cell
 			var game = new Game(map);
 			game.RunGame();
 		}
+
 	}
 }

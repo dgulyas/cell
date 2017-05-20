@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cell.bots;
+using Cell.Bots;
 
 namespace Cell
 {

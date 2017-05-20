@@ -1,4 +1,4 @@
-﻿namespace Cell.bots
+﻿namespace Cell.Bots
 {
 	public interface IBot
 	{

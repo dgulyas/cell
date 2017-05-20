@@ -7,13 +7,12 @@ namespace Cell.Tests
 	public class BoardTests
 	{
 		[Test, TestCaseSource(nameof(GetWinnerTestCases))]
-		//make this take a test source of a tuple where the first element is the forts and the second is the winner
-		public void TestGetTheWinnerWithWinner(List<Fort> forts, Player winner)
+		public void TestGetTheWinnerWithWinner(List<Fort> forts, Player expectedWinner)
 		{
 			var board = new Board();
 			board.Forts.AddRange(forts);
-			var winnner = board.GetTheWinner();
-			Assert.AreEqual(winner, winnner);
+			var winner = board.GetTheWinner();
+			Assert.AreEqual(expectedWinner, winner);
 		}
 
 		public static object[] GetWinnerTestCases()

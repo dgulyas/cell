@@ -14,11 +14,6 @@ namespace Cell
 			Turn = 1;
 		}
 
-		public void AddFort(Fort fort)
-		{
-			Forts.Add(fort);
-		}
-
 		//Returns the winning player, otherwise null.
 		public Player GetTheWinner()
 		{

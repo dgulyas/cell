@@ -65,13 +65,13 @@
   <ItemGroup>
     <Compile Include="AiHelper.cs" />
     <Compile Include="Board.cs" />
-    <Compile Include="bots\BotOne.cs" />
-    <Compile Include="bots\DoNothingBot.cs" />
-    <Compile Include="bots\WebBot.cs" />
+    <Compile Include="Bots\BotOne.cs" />
+    <Compile Include="Bots\DoNothingBot.cs" />
+    <Compile Include="Bots\WebBot.cs" />
     <Compile Include="Fort.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GuyGroup.cs" />
-    <Compile Include="bots\IBot.cs" />
+    <Compile Include="Bots\IBot.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="MapCatalog.cs" />
     <Compile Include="Move.cs" />
