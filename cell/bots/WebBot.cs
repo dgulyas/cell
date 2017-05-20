@@ -1,6 +1,5 @@
 ﻿using System;
-using Nancy;
-
+using Cell.Bots;
 
 //Ideally this will start a web service that remote bots can use
 //to interact with the game.
