@@ -13,6 +13,7 @@ _ReSharper.Advatar/
 *.ncb
 *.docstates
 version.rc
+.vs/
 
 #Unit Test files/folders
 TestResult.xml

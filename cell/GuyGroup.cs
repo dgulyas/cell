@@ -4,7 +4,7 @@
 	{
 		public Player GroupOwner;
 		public int NumGuys;
-		
+
 		//The number of turns/ticks until the group reaches its destination fort.
 		public int TicksTillFinished;
 
@@ -23,7 +23,7 @@
 			GroupOwner = owner;
 			InstanceID = InstanceCounter++;
 		}
-		
+
 		public void EnterFort(){
 			DestinationFort.ReceiveGuys(NumGuys, GroupOwner);
 		}
@@ -32,6 +32,6 @@
 		{
 			return $"GuyGroup -> ID:{InstanceID} owner:{GroupOwner.Name} numGuys:{NumGuys} ticksLeft:{TicksTillFinished} fort:{DestinationFort.ID}";
 		}
-		
+
 	}
 }
