@@ -8,6 +8,7 @@ namespace Cell
 	{
 		private Map m_map;
 		private List<Player> m_players;
+		private int m_turnNumber = 0;
 
 		public Game(Map map)
 		{
@@ -39,6 +40,7 @@ namespace Cell
 
 			while (winner == null)
 			{
+				m_turnNumber++;
 				board.CreateGuys();
 				board.MoveGuyGroups();
 
@@ -56,8 +58,9 @@ namespace Cell
 			Console.ReadLine();
 		}
 
-		public static void PrintGameState(Board board)
+		public void PrintGameState(Board board)
 		{
+			Console.WriteLine($"Turn Number: {m_turnNumber}");
 			foreach (var fort in board.Forts)
 			{
 				Console.WriteLine(fort.GetDescription());
