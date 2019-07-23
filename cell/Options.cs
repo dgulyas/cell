@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using CommandLine;
+﻿using CommandLine;
 using CommandLine.Text;
 
 namespace Cell
@@ -24,7 +23,7 @@ namespace Cell
 		public string GetUsage()
 		{
 			return HelpText.AutoBuild(this,
-				(HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));
+				current => HelpText.DefaultParsingErrorsHandler(this, current));
 		}
 	}
 }

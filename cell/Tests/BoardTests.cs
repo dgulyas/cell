@@ -41,6 +41,6 @@ namespace Cell.Tests
 				new object[] {new List<Fort>(), null}
 			};
 		}
-		
+
 	}
 }

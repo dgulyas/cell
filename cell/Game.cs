@@ -8,7 +8,6 @@ namespace Cell
 	{
 		private Map m_map;
 		private List<Player> m_players;
-		private int m_turnNumber = 0;
 
 		public Game(Map map)
 		{
@@ -40,7 +39,7 @@ namespace Cell
 
 			while (winner == null)
 			{
-				m_turnNumber++;
+				board.Turn++;
 				board.CreateGuys();
 				board.MoveGuyGroups();
 
@@ -49,7 +48,6 @@ namespace Cell
 					bot.Do(board);
 				}
 
-				Console.WriteLine($"{Environment.NewLine}Turn:{board.Turn++}");
 				PrintGameState(board);
 				winner = board.GetTheWinner();
 			}
@@ -60,7 +58,7 @@ namespace Cell
 
 		public void PrintGameState(Board board)
 		{
-			Console.WriteLine($"Turn Number: {m_turnNumber}");
+			Console.WriteLine($"{Environment.NewLine}Turn:{board.Turn}");
 			foreach (var fort in board.Forts)
 			{
 				Console.WriteLine(fort.GetDescription());
