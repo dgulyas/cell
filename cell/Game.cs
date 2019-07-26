@@ -15,8 +15,7 @@ namespace Cell
 
 			if (m_bots.Count < map.Players.Count)
 			{
-				Console.WriteLine("The selected map doesn't have enough player starting positions.");
-				Environment.Exit(0);
+				throw new Exception("The selected map doesn't have enough player starting positions.");
 			}
 
 			for (int i = 0; i < m_bots.Count; i++)
@@ -42,9 +41,12 @@ namespace Cell
 				bot.Do(m_board);
 			}
 
-			m_board.Print();
 			return m_board.GetTheWinner();
 		}
 
+		public override string ToString()
+		{
+			return m_board.ToString();
+		}
 	}
 }

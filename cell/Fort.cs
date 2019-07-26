@@ -50,7 +50,7 @@ namespace Cell
 			}
 		}
 
-		public string GetDescription()
+		public override string ToString()
 		{
 			return $"Fort -> X:{Location.X} Y:{Location.Y} NumGuys:{NumDefendingGuys} Owner:{FortOwner?.Name ?? "Unowned"}";
 		}

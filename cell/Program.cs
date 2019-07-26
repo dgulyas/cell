@@ -10,14 +10,13 @@ namespace Cell
 			CommandLine.Parser.Default.ParseArguments(args, options);
 			CheckOptions(options);
 
-			MapCatalog.LoadMaps(options.MapLibrary);
-			var map = MapCatalog.GetMap(options.MapName);
-			var game = new Game(map);
+			var game = new Game(GetMapFromLibrary(options.MapLibrary, options.MapName));
 
 			Player winner;
 			do
 			{
 				winner = game.RunGameTurn();
+				Console.WriteLine(game.ToString());
 			}
 			while (winner == null);
 
@@ -44,6 +43,27 @@ namespace Cell
 				Console.WriteLine("The -m option must be defined.");
 				Environment.Exit(0);
 			}
+		}
+
+		private static Map GetMapFromLibrary(string libraryFilePath, string mapName)
+		{
+			try
+			{
+				MapCatalog.LoadMaps(libraryFilePath);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine("There was a problem loading the map catalog");
+				Console.WriteLine(e.Message);
+			}
+
+			var map = MapCatalog.GetMap(mapName);
+			if (map == null)
+			{
+				Console.WriteLine("Could not load map.");
+				Environment.Exit(0);
+			}
+			return map;
 		}
 
 	}

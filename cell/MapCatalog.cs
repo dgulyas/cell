@@ -11,17 +11,7 @@ namespace Cell
 		public static void LoadMaps(string mapJsonFile)
 		{
 			string fileContents = "";
-
-			try
-			{
-				fileContents = System.IO.File.ReadAllText(mapJsonFile);
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine("There was a problem reading the Map Library:");
-				Console.WriteLine(e.Message);
-				Environment.Exit(0);
-			}
+			fileContents = System.IO.File.ReadAllText(mapJsonFile);
 			Maps = JsonConvert.DeserializeObject<Dictionary<string, Map>>(fileContents);
 		}
 
@@ -29,8 +19,7 @@ namespace Cell
 		{
 			if (!Maps.ContainsKey(mapName))
 			{
-				Console.WriteLine($"The map {mapName} does not exist.");
-				Environment.Exit(0);
+				return null;
 			}
 			return Maps[mapName];
 		}

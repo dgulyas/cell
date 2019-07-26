@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Cell
 {
@@ -58,18 +59,22 @@ namespace Cell
 			}
 		}
 
-		public void Print()
+		public override string ToString()
 		{
-			Console.WriteLine($"{Environment.NewLine}Turn:{Turn}");
+			var sb = new StringBuilder();
+
+			sb.AppendLine($"{Environment.NewLine}Turn:{Turn}");
 			foreach (var fort in Forts)
 			{
-				Console.WriteLine(fort.GetDescription());
+				sb.AppendLine(fort.ToString());
 			}
 
 			foreach (var gg in TravelingGGs)
 			{
-				Console.WriteLine(gg.GetDescription());
+				sb.AppendLine(gg.ToString());
 			}
+
+			return sb.ToString();
 		}
 
 	}

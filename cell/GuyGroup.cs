@@ -28,7 +28,7 @@
 			DestinationFort.ReceiveGuys(NumGuys, GroupOwner);
 		}
 
-		public string GetDescription()
+		public override string ToString()
 		{
 			return $"GuyGroup -> ID:{InstanceID} owner:{GroupOwner.Name} numGuys:{NumGuys} ticksLeft:{TicksTillFinished} fort:{DestinationFort.ID}";
 		}
