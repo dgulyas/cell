@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Cell
@@ -54,6 +55,20 @@ namespace Cell
 			if (move.Source.FortOwner == player && move.NumGuys > 0 && move.Source.NumDefendingGuys >= move.NumGuys)
 			{
 				TravelingGGs.Add(move.Source.SendGuyGroup(move.Dest, move.NumGuys));
+			}
+		}
+
+		public void Print()
+		{
+			Console.WriteLine($"{Environment.NewLine}Turn:{Turn}");
+			foreach (var fort in Forts)
+			{
+				Console.WriteLine(fort.GetDescription());
+			}
+
+			foreach (var gg in TravelingGGs)
+			{
+				Console.WriteLine(gg.GetDescription());
 			}
 		}
 

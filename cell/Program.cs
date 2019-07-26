@@ -13,7 +13,16 @@ namespace Cell
 			MapCatalog.LoadMaps(options.MapLibrary);
 			var map = MapCatalog.GetMap(options.MapName);
 			var game = new Game(map);
-			game.RunGame();
+
+			Player winner;
+			do
+			{
+				winner = game.RunGameTurn();
+			}
+			while (winner == null);
+
+			Console.WriteLine($"The winner is {winner.Name}");
+			Console.ReadLine();
 		}
 
 		public static void CheckOptions(Options options)
