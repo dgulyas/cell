@@ -19,10 +19,10 @@ namespace Cell
 		//Returns the winning player, otherwise null.
 		public Player GetTheWinner()
 		{
-			var thing = Forts.Select(f => f.FortOwner).Where(fo => fo != null).Distinct().ToList();
-			if (thing.Count() == 1)
+			var remainingPlayers = Forts.Select(f => f.FortOwner).Where(fo => fo != null).Distinct().ToList();
+			if (remainingPlayers.Count == 1)
 			{
-				return thing.First();
+				return remainingPlayers.First();
 			}
 			return null;
 		}

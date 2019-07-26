@@ -68,6 +68,7 @@
     <Compile Include="Board.cs" />
     <Compile Include="Bots\BotOne.cs" />
     <Compile Include="Bots\DoNothingBot.cs" />
+    <Compile Include="Bots\HumanBot.cs" />
     <Compile Include="Bots\WebBot.cs" />
     <Compile Include="Fort.cs" />
     <Compile Include="Game.cs" />
