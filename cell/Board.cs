@@ -64,9 +64,11 @@ namespace Cell
 			var sb = new StringBuilder();
 
 			sb.AppendLine($"{Environment.NewLine}Turn:{Turn}");
-			foreach (var fort in Forts)
+
+			for (int i = 0; i < Forts.Count; i++)
 			{
-				sb.AppendLine(fort.ToString());
+				sb.Append(Forts[i]);
+				sb.AppendLine($" Index:{i}");
 			}
 
 			foreach (var gg in TravelingGGs)

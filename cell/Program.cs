@@ -11,10 +11,11 @@ namespace Cell
 			CheckOptions(options);
 
 			var game = new Game(GetMapFromLibrary(options.MapLibrary, options.MapName));
+			Console.WriteLine(game.ToString());
 
 			Player winner;
 			do
-			{
+			{  //TODO: The game updates the state then gets the moves from the bots. This doesn't let the board be printed inbetween, so console has old info for the humanBot to use.
 				winner = game.RunGameTurn();
 				Console.WriteLine(game.ToString());
 			}

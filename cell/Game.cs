@@ -11,7 +11,8 @@ namespace Cell
 
 		public Game(Map map)
 		{
-			m_bots = new List<IBot> { new BotOne(), new BotOne() };
+			//m_bots = new List<IBot> { new BotOne(), new BotOne() };
+			m_bots = new List<IBot> { new DoNothingBot(), new HumanBot() };
 
 			if (m_bots.Count < map.Players.Count)
 			{
