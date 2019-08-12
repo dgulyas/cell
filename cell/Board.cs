@@ -8,7 +8,7 @@ namespace Cell
 	public class Board
 	{
 		public int Turn;
-		public List<Fort> Forts = new List<Fort>();
+		public Dictionary<int, Fort> Forts = new Dictionary<int, Fort>();
 		public List<GuyGroup> TravelingGGs = new List<GuyGroup>();
 
 		public Board()
@@ -19,7 +19,7 @@ namespace Cell
 		//Returns the winning player, otherwise null.
 		public Player GetTheWinner()
 		{
-			var remainingPlayers = Forts.Select(f => f.FortOwner).Where(fo => fo != null).Distinct().ToList();
+			var remainingPlayers = Forts.Values.Select(f => f.FortOwner).Where(fo => fo != null).Distinct().ToList();
 			if (remainingPlayers.Count == 1)
 			{
 				return remainingPlayers.First();
@@ -29,7 +29,10 @@ namespace Cell
 
 		public void CreateGuys()
 		{
-			Forts.ForEach(f => f.CreateGuys());
+			foreach (var fort in Forts.Values)
+			{
+				fort.CreateGuys();
+			}
 		}
 
 		public void MoveGuyGroups()
@@ -51,12 +54,19 @@ namespace Cell
 			}
 		}
 
-		public void DoMove(Move move, Player player)
+		//returns true if move is accepted, false otherwise.
+		public bool DoMove(Move move, Player player)
 		{
-			if (move.Source.FortOwner == player && move.NumGuys > 0 && move.Source.NumDefendingGuys >= move.NumGuys)
+			var sourceFort = Forts[move.SourceFortId];
+			var destFort = Forts[move.DestFortId];
+
+			if (sourceFort.FortOwner.Name == player.Name && move.NumGuys > 0 && sourceFort.NumDefendingGuys >= move.NumGuys)
 			{
-				TravelingGGs.Add(move.Source.SendGuyGroup(move.Dest, move.NumGuys));
+				TravelingGGs.Add(sourceFort.SendGuyGroup(destFort, move.NumGuys));
+				return true;
 			}
+
+			return false;
 		}
 
 		public override string ToString()
@@ -77,6 +87,22 @@ namespace Cell
 			}
 
 			return sb.ToString();
+		}
+
+		public Board Clone()
+		{
+			var b = new Board {Turn = Turn};
+			foreach (var fortKey in Forts.Keys)
+			{
+				b.Forts.Add(fortKey, Forts[fortKey].Clone());
+			}
+
+			foreach (var travelingGG in TravelingGGs)
+			{
+				b.TravelingGGs.Add(travelingGG.Clone());
+			}
+
+			return b;
 		}
 
 	}

@@ -17,5 +17,10 @@ namespace Cell
 		{
 			return $"X:{X} Y:{Y}";
 		}
+
+		public Point Clone()
+		{
+			return  new Point{X = X, Y = Y};
+		}
 	}
 }

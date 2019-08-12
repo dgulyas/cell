@@ -1,8 +1,10 @@
-﻿namespace Cell.Bots
+﻿using System.Collections.Generic;
+
+namespace Cell.Bots
 {
 	public interface IBot
 	{
-		void Do(Board board);
+		List<Move> Do(Board board);
 		void SetPlayer(Player player);
 		Player GetPlayer();
 	}

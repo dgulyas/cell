@@ -10,7 +10,10 @@ namespace Cell.Tests
 		public void TestGetTheWinnerWithWinner(List<Fort> forts, Player expectedWinner)
 		{
 			var board = new Board();
-			board.Forts.AddRange(forts);
+			foreach (var fort in forts)
+			{
+				board.Forts.Add(fort.ID, fort);
+			}
 			var winner = board.GetTheWinner();
 			Assert.AreEqual(expectedWinner, winner);
 		}

@@ -17,10 +17,12 @@ namespace Cell.Bots
 			return m_player;
 		}
 
-		void IBot.Do(Board board)
+		public List<Move> Do(Board board)
 		{
 			var friendlyForts = AiHelper.GetFriendlyForts(m_player, board);
 			var enemyForts = AiHelper.GetEnemyForts(m_player, board);
+
+			var moves = new List<Move>();
 
 			if (enemyForts.Count > 0)
 			{
@@ -28,11 +30,16 @@ namespace Cell.Bots
 				{
 					if (fort.NumDefendingGuys > 0)
 					{
-						board.DoMove(new Move(fort, enemyForts[0], fort.NumDefendingGuys), m_player);
+						var move = new Move(fort.ID, enemyForts[0].ID, fort.NumDefendingGuys);
+						if(board.DoMove(move, m_player))
+						{
+							moves.Add(move);
+						}
 					}
 				}
 			}
 
+			return moves;
 		}
 
 	}

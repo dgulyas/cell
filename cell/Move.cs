@@ -2,15 +2,15 @@
 {
 	public class Move
 	{
-		public Move(Fort source, Fort dest, int numGuys)
+		public Move(int source, int dest, int numGuys)
 		{
-			Source = source;
-			Dest = dest;
+			SourceFortId = source;
+			DestFortId = dest;
 			NumGuys = numGuys;
 		}
 
-		public Fort Source;
-		public Fort Dest;
+		public int SourceFortId;
+		public int DestFortId;
 		public int NumGuys;
 	}
 }

@@ -10,8 +10,15 @@ namespace Cell
 
 		public int NumDefendingGuys;
 
+		private static int InstanceCounter;
 		[JsonIgnoreAttribute]
-		public string ID => Location.GetDiscription();
+		public int ID;
+
+		public Fort()
+		{
+			ID = InstanceCounter;
+			InstanceCounter++;
+		}
 
 		public void CreateGuys()
 		{
@@ -53,6 +60,18 @@ namespace Cell
 		public override string ToString()
 		{
 			return $"Fort -> X:{Location.X} Y:{Location.Y} NumGuys:{NumDefendingGuys} Owner:{FortOwner?.Name ?? "Unowned"}";
+		}
+
+		public Fort Clone()
+		{
+			return new Fort
+			{
+				BirthSpeed = BirthSpeed,
+				NumDefendingGuys = NumDefendingGuys,
+				FortOwner = FortOwner?.Clone(),
+				Location = Location.Clone(),
+				ID = ID
+			};
 		}
 	}
 }

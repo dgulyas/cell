@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Cell.Bots
 {
@@ -8,9 +7,10 @@ namespace Cell.Bots
 	{
 		private Player m_player;
 
-		public void Do(Board board)
+		public List<Move> Do(Board board)
 		{
 			Console.WriteLine($"{m_player.Name}'s Turn");
+			var moves = new List<Move>();
 			while (true)
 			{
 				Console.Write("Exit(e) or Move(m): ");
@@ -19,9 +19,9 @@ namespace Cell.Bots
 				switch (modeChoice)
 				{
 					case "e":
-						return;
+						return moves;
 					case "m":
-						GetAndProcessMove(board);
+						GetAndProcessMove(board, moves);
 						break;
 					default:
 						continue;
@@ -30,7 +30,7 @@ namespace Cell.Bots
 			}
 		}
 
-		private void GetAndProcessMove(Board board)
+		private void GetAndProcessMove(Board board, List<Move> moves)
 		{
 			Console.Write("Enter move in format <Source Fort Index> <Num Guys> <Destination Fort Index>: ");
 			var moveInput = Console.ReadLine();
@@ -61,10 +61,15 @@ namespace Cell.Bots
 			//number of guys must exist in fort in order to move them
 			if (numGuysToMove > sourceFort.NumDefendingGuys ) return;
 
+			//only move positive int number guys
+			if (numGuysToMove < 1) return;
+
 			//this player must own the fort in order to move guys from it.
 			if (sourceFort.FortOwner != m_player) return;
 
-			board.DoMove(new Move(sourceFort, destFort, numGuysToMove), m_player);
+			var move = new Move(sourceFort.ID, destFort.ID, numGuysToMove);
+			board.DoMove(move, m_player);
+			moves.Add(move);
 		}
 
 		public void SetPlayer(Player player)

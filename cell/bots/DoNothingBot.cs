@@ -7,9 +7,9 @@ namespace Cell.Bots
 	{
 		private Player m_player;
 
-		public void Do(Board board)
+		public List<Move> Do(Board board)
 		{
-
+			return new List<Move>();
 		}
 
 		public void SetPlayer(Player player)

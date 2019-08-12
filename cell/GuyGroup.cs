@@ -15,6 +15,8 @@
 		private static int InstanceCounter;
 		public int InstanceID;
 
+		public GuyGroup(){}
+
 		public GuyGroup(Fort destinationFort, int numGuys, Point currentLocation, Player owner)
 		{
 			DestinationFort = destinationFort;
@@ -33,5 +35,16 @@
 			return $"GuyGroup -> ID:{InstanceID} owner:{GroupOwner.Name} numGuys:{NumGuys} ticksLeft:{TicksTillFinished} fort:{DestinationFort.ID}";
 		}
 
+		public GuyGroup Clone()
+		{
+			return new GuyGroup
+			{
+				InstanceID = InstanceID,
+				TicksTillFinished = TicksTillFinished,
+				NumGuys = NumGuys,
+				DestinationFort = DestinationFort.Clone(),
+				GroupOwner = GroupOwner.Clone()
+			};
+		}
 	}
 }
