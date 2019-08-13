@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cell.Bots;
 
 //Ideally this will start a web service that remote bots can use
 //to interact with the game.
-namespace Cell.bots
+namespace Cell.Bots
 {
 	public class WebBot : IBot
 	{
@@ -13,10 +12,6 @@ namespace Cell.bots
 
 		public List<Move> Do(Board board)
 		{
-
-
-
-
 			throw new NotImplementedException();
 		}
 

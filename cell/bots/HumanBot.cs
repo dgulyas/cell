@@ -65,7 +65,7 @@ namespace Cell.Bots
 			if (numGuysToMove < 1) return;
 
 			//this player must own the fort in order to move guys from it.
-			if (sourceFort.FortOwner != m_player) return;
+			if (sourceFort.FortOwner.Name != m_player.Name) return;
 
 			var move = new Move(sourceFort.ID, destFort.ID, numGuysToMove);
 			board.DoMove(move, m_player);
