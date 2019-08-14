@@ -12,11 +12,6 @@ namespace Cell.Bots
 			m_player = player;
 		}
 
-		public Player GetPlayer()
-		{
-			return m_player;
-		}
-
 		public List<Move> Do(Board board)
 		{
 			var friendlyForts = AiHelper.GetFriendlyForts(m_player, board);

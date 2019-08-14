@@ -17,9 +17,5 @@ namespace Cell.Bots
 			m_player = player;
 		}
 
-		public Player GetPlayer()
-		{
-			return m_player;
-		}
 	}
 }

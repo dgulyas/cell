@@ -6,6 +6,5 @@ namespace Cell.Bots
 	{
 		List<Move> Do(Board board);
 		void SetPlayer(Player player);
-		Player GetPlayer();
 	}
 }

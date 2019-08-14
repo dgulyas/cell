@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 //Ideally this will start a web service that remote bots can use
 //to interact with the game.
@@ -9,10 +10,13 @@ namespace Cell.Bots
 	{
 		private Player m_player;
 
+		private string jsonBoard;
 
 		public List<Move> Do(Board board)
 		{
-			throw new NotImplementedException();
+			jsonBoard = JsonConvert.SerializeObject(board);
+			Console.WriteLine();
+			return new List<Move>();
 		}
 
 		public void SetPlayer(Player player)
@@ -20,9 +24,5 @@ namespace Cell.Bots
 			m_player = player;
 		}
 
-		public Player GetPlayer()
-		{
-			return m_player;
-		}
 	}
 }

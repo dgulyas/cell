@@ -11,7 +11,7 @@ namespace Cell
 		public int NumDefendingGuys;
 
 		private static int InstanceCounter;
-		[JsonIgnoreAttribute]
+		[JsonIgnore]
 		public int ID;
 
 		public Fort()

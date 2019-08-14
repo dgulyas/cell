@@ -47,7 +47,7 @@ namespace Cell
 
 			foreach (var bot in m_bots) //collect all the moves from the bots
 			{
-				var botMoves = bot.Do(m_board.Clone());
+				var botMoves = bot.Do(m_board.Clone()) ?? new List<Move>();
 				moveDict.Add(bot, botMoves);
 			}
 
