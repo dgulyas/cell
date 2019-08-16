@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters;
 using Cell.Bots;
 
 namespace Cell
@@ -11,10 +10,11 @@ namespace Cell
 		private readonly List<IBot> m_bots;
 		private readonly Dictionary<IBot, Player> botPlayerMapping;
 
-		public Game(Map map)
+		public Game(Map map, List<IBot> bots)
 		{
 			//m_bots = new List<IBot> { new BotOne(), new BotOne() };
-			m_bots = new List<IBot> { new DoNothingBot(), new HumanBot() };
+			//m_bots = new List<IBot> { new DoNothingBot(), new HumanBot() };
+			m_bots = bots;
 
 			if (m_bots.Count < map.Players.Count)
 			{

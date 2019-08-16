@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Cell.Bots;
 
 namespace Cell
 {
@@ -6,11 +8,18 @@ namespace Cell
 	{
 		static void Main(string[] args)
 		{
+			var x = new Tournament();
+			x.Test();
+
 			var options = new Options();
 			CommandLine.Parser.Default.ParseArguments(args, options);
 			CheckOptions(options);
 
-			var game = new Game(GetMapFromLibrary(options.MapLibrary, options.MapName));
+			var bots = new List<IBot>();
+			//bots = new List<IBot> { new BotOne(), new BotOne() };
+			//bots = new List<IBot> { new DoNothingBot(), new HumanBot() };
+
+			var game = new Game(GetMapFromLibrary(options.MapLibrary, options.MapName), bots);
 			Console.WriteLine(game.ToString());
 
 			Player winner;
