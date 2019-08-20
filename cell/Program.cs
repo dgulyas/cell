@@ -8,8 +8,12 @@ namespace Cell
 	{
 		static void Main(string[] args)
 		{
-			var x = new Tournament();
-			x.Test();
+			var tournament = new Tournament();
+			tournament.Bots = new List<string>{"a","b", "c", "d", "e" };
+			tournament.maps = new List<string>{"map1", "map2"};
+			tournament.GenerateRoundRobinPairings();
+
+			tournament.Run();
 
 			var options = new Options();
 			CommandLine.Parser.Default.ParseArguments(args, options);
@@ -19,7 +23,7 @@ namespace Cell
 			//bots = new List<IBot> { new BotOne(), new BotOne() };
 			//bots = new List<IBot> { new DoNothingBot(), new HumanBot() };
 
-			var game = new Game(GetMapFromLibrary(options.MapLibrary, options.MapName), bots);
+			var game = new Game(GetMapFromCatalog(options.MapCatalog, options.MapName), bots);
 			Console.WriteLine(game.ToString());
 
 			Player winner;
@@ -42,24 +46,24 @@ namespace Cell
 				Environment.Exit(0);
 			}
 
-			if (options.MapLibrary == null)
+			if (options.MapCatalog == null)
 			{
-				Console.WriteLine("The -l option must be defined.");
+				Console.WriteLine("The -c option must be defined.");
 				Environment.Exit(0);
 			}
 
 			if (options.MapName == null)
 			{
-				Console.WriteLine("The -m option must be defined.");
+				Console.WriteLine("The -n option must be defined.");
 				Environment.Exit(0);
 			}
 		}
 
-		private static Map GetMapFromLibrary(string libraryFilePath, string mapName)
+		private static Map GetMapFromCatalog(string catalogFilePath, string mapName)
 		{
 			try
 			{
-				MapCatalog.LoadMaps(libraryFilePath);
+				MapCatalog.LoadMaps(catalogFilePath);
 			}
 			catch (Exception e)
 			{

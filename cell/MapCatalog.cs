@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Cell
 {
-	public static class MapCatalog
+	public static class MapCatalog //TODO: This class doesn't need to be static?
 	{
 		public static Dictionary<string, Map> Maps;
 
@@ -20,7 +20,12 @@ namespace Cell
 			{
 				return null;
 			}
-			return Maps[mapName];
+			return Maps[mapName]; //TODO: need to clone map
+		}
+
+		public static bool MapExists(string mapName)
+		{
+			return Maps.ContainsKey(mapName);
 		}
 
 

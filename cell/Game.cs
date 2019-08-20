@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cell.Bots;
 
 namespace Cell
@@ -10,11 +11,11 @@ namespace Cell
 		private readonly List<IBot> m_bots;
 		private readonly Dictionary<IBot, Player> botPlayerMapping;
 
-		public Game(Map map, List<IBot> bots)
+		public Game(Map map, List<IBot> players)
 		{
 			//m_bots = new List<IBot> { new BotOne(), new BotOne() };
 			//m_bots = new List<IBot> { new DoNothingBot(), new HumanBot() };
-			m_bots = bots;
+			m_bots = players;
 
 			if (m_bots.Count < map.Players.Count)
 			{
@@ -60,6 +61,11 @@ namespace Cell
 			}
 
 			return m_board.GetTheWinner();
+		}
+
+		public IBot GetBotAssignedToPlayer(Player player)
+		{
+			return botPlayerMapping.FirstOrDefault(m => m.Value == player).Key;
 		}
 
 		public override string ToString()
