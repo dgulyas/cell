@@ -11,11 +11,9 @@ namespace Cell
 		private readonly List<IBot> m_bots;
 		private readonly Dictionary<IBot, Player> botPlayerMapping;
 
-		public Game(Map map, List<IBot> players)
+		public Game(Map map, List<IBot> bots)
 		{
-			//m_bots = new List<IBot> { new BotOne(), new BotOne() };
-			//m_bots = new List<IBot> { new DoNothingBot(), new HumanBot() };
-			m_bots = players;
+			m_bots = bots;
 
 			if (m_bots.Count < map.Players.Count)
 			{
@@ -64,11 +62,11 @@ namespace Cell
 		}
 
 		public IBot GetBotAssignedToPlayer(Player player)
-		{
+		{ //this assumes that every player is only assigned to one bot
 			return botPlayerMapping.FirstOrDefault(m => m.Value == player).Key;
 		}
 
-		public override string ToString()
+		public override string ToString() //TODO: Put turn in the Game class not the Board class. Have it print out here.
 		{
 			return m_board.ToString();
 		}

@@ -8,37 +8,42 @@ namespace Cell
 	{
 		static void Main(string[] args)
 		{
-			var tournament = new Tournament();
-			tournament.Bots = new List<string>{"a","b", "c", "d", "e" };
-			tournament.maps = new List<string>{"map1", "map2"};
-			tournament.GenerateRoundRobinPairings();
 
-			tournament.Run();
+			var bots = new List<string>{"DoNothingBot", "BotOne"};
+			//var bots = new List<string>{"HumanBot","DoNothingBot"};
+			var maps = new List<string>{"fourFortsSquare", "threeFortsLine"};
+
 
 			var options = new Options();
 			CommandLine.Parser.Default.ParseArguments(args, options);
-			CheckOptions(options);
+			MapCatalog.LoadMaps(options.MapCatalog);
 
-			var bots = new List<IBot>();
-			//bots = new List<IBot> { new BotOne(), new BotOne() };
-			//bots = new List<IBot> { new DoNothingBot(), new HumanBot() };
+			var tournament = new Tournament(maps, bots);
 
-			var game = new Game(GetMapFromCatalog(options.MapCatalog, options.MapName), bots);
-			Console.WriteLine(game.ToString());
+			tournament.Run();
 
-			Player winner;
-			do
-			{  //TODO: The game updates the state then gets the moves from the bots. This doesn't let the board be printed inbetween, so console has old info for the humanBot to use.
-				winner = game.RunGameTurn();
-				Console.WriteLine(game.ToString());
-			}
-			while (winner == null);
+			//CheckOptions(options);
 
-			Console.WriteLine($"The winner is {winner.Name}");
+			//var bots = new List<IBot>();
+			////bots = new List<IBot> { new BotOne(), new BotOne() };
+			////bots = new List<IBot> { new DoNothingBot(), new HumanBot() };
+
+			//var game = new Game(GetMapFromCatalog(options.MapCatalog, options.MapName), bots);
+			//Console.WriteLine(game.ToString());
+
+			//Player winner;
+			//do
+			//{  //TODO: The game updates the state then gets the moves from the bots. This doesn't let the board be printed inbetween, so console has old info for the humanBot to use.
+			//	winner = game.RunGameTurn();
+			//	Console.WriteLine(game.ToString());
+			//}
+			//while (winner == null);
+
+			//Console.WriteLine($"The winner is {winner.Name}");
 			Console.ReadLine();
 		}
 
-		public static void CheckOptions(Options options)
+		public static void CheckOptions(Options options) //TODO: Move this to the options class?
 		{
 			if (options.Help)
 			{
@@ -59,7 +64,7 @@ namespace Cell
 			}
 		}
 
-		private static Map GetMapFromCatalog(string catalogFilePath, string mapName)
+		private static Map GetMapFromCatalog(string catalogFilePath, string mapName) //TODO: Split this into 2 functions?
 		{
 			try
 			{

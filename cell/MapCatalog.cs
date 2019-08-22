@@ -20,7 +20,7 @@ namespace Cell
 			{
 				return null;
 			}
-			return Maps[mapName]; //TODO: need to clone map
+			return Maps[mapName].Clone();
 		}
 
 		public static bool MapExists(string mapName)
