@@ -7,14 +7,8 @@ namespace Cell
 {
 	public class Board
 	{
-		public int Turn;
 		public Dictionary<int, Fort> Forts = new Dictionary<int, Fort>();
 		public List<GuyGroup> TravelingGGs = new List<GuyGroup>();
-
-		public Board()
-		{
-			Turn = 1;
-		}
 
 		//Returns the winning player, otherwise null.
 		public Player GetTheWinner()
@@ -73,7 +67,7 @@ namespace Cell
 		{
 			var sb = new StringBuilder();
 
-			sb.AppendLine($"{Environment.NewLine}Turn:{Turn}");
+			//sb.AppendLine($"{Environment.NewLine}Turn:{Turn}");
 
 			for (int i = 0; i < Forts.Count; i++)
 			{
@@ -91,7 +85,7 @@ namespace Cell
 
 		public Board Clone()
 		{
-			var b = new Board {Turn = Turn};
+			var b = new Board();
 			foreach (var fortKey in Forts.Keys)
 			{
 				b.Forts.Add(fortKey, Forts[fortKey].Clone());

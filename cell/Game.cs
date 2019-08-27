@@ -7,6 +7,7 @@ namespace Cell
 {
 	public class Game
 	{
+		public int Turn;
 		private readonly Board m_board;
 		private readonly List<IBot> m_bots;
 		private readonly Dictionary<IBot, Player> botPlayerMapping;
@@ -33,12 +34,14 @@ namespace Cell
 			{
 				m_board.Forts.Add(fort.ID, fort);
 			}
+
+			Turn = 1;
 		}
 
 		//Returns the winning player, otherwise null.
 		public Player RunGameTurn()
 		{
-			m_board.Turn++;
+			Turn++;
 			m_board.CreateGuys();
 			m_board.MoveGuyGroups();
 
@@ -66,9 +69,9 @@ namespace Cell
 			return botPlayerMapping.FirstOrDefault(m => m.Value == player).Key;
 		}
 
-		public override string ToString() //TODO: Put turn in the Game class not the Board class. Have it print out here.
+		public override string ToString()
 		{
-			return m_board.ToString();
+			return $"Turn: {Turn}{Environment.NewLine}" + m_board.ToString();
 		}
 	}
 }
