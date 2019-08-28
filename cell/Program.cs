@@ -8,7 +8,7 @@ namespace Cell
 		static void Main(string[] args)
 		{
 
-			var bots = new List<string>{"DoNothingBot", "BotOne"};
+			var bots = new List<string>{"DoNothingBot", "BotOne" };
 			//var bots = new List<string>{"HumanBot","DoNothingBot"};
 			var maps = new List<string>{"fourFortsSquare", "threeFortsLine"};
 
@@ -33,7 +33,7 @@ namespace Cell
 
 			//Player winner;
 			//do
-			//{  //TODO: The game updates the state then gets the moves from the bots. This doesn't let the board be printed inbetween, so console has old info for the humanBot to use.
+			//{
 			//	winner = game.RunGameTurn();
 			//	Console.WriteLine(game.ToString());
 			//}

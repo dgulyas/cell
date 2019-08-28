@@ -14,6 +14,7 @@ namespace Cell
 		//The names of the bot classes that should be in the tournament
 		private readonly List<string> m_bots;
 
+		//The collection of maps. Must contain a map matching every map name in m_maps.
 		private readonly MapCatalog m_mCatalog;
 
 		//The constructors for the bots. Used to create a new instance of a bot for each game.
@@ -66,7 +67,7 @@ namespace Cell
 
 			ExecutePairings();
 
-			PrintResults();
+			PrintResults(); //TODO: This class shouldn't be printing to the console. Make function to return results as string.
 		}
 
 		public string FindWinner() //TODO: Write this function
@@ -83,7 +84,7 @@ namespace Cell
 		}
 
 		public void ExecutePairings()
-		{
+		{ //TODO: Save the board state each turn and store it somewhere. Then dump it somewhere permanent when the game is done.
 			foreach (var pairing in m_pairings)
 			{
 				var bot1 = m_botConstructors[pairing.Item1].Invoke(new object[] { });
@@ -93,14 +94,29 @@ namespace Cell
 
 				var game = new Game(map, botList);
 
-				Player winningPlayer;
-				do //TODO: Declare a tie after large number of turns
+				var gameWasATie = false;
+				Player winningPlayer = null;
+				do
 				{  //TODO: The game updates the state then gets the moves from the bots. This doesn't let the board be printed inbetween, so console has old info for the humanBot to use.
-					winningPlayer = game.RunGameTurn();
+					if (game.Turn > 4000) //Game has gone on too long. Declare a tie.
+					{
+						gameWasATie = true;
+					}
+					else
+					{
+						winningPlayer = game.RunGameTurn();
+					}
 				}
-				while (winningPlayer == null);
+				while (!gameWasATie && winningPlayer == null);
 
-				m_results[pairing] = game.GetBotAssignedToPlayer(winningPlayer).GetType().Name;
+				if (gameWasATie)
+				{
+					m_results[pairing] = "Game Was A Tie";
+				}
+				else
+				{
+					m_results[pairing] = game.GetBotAssignedToPlayer(winningPlayer).GetType().Name;
+				}
 			}
 		}
 
