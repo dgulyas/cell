@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cell.Bots;
 
 namespace Cell
 {
@@ -16,9 +15,10 @@ namespace Cell
 
 			var options = new Options();
 			CommandLine.Parser.Default.ParseArguments(args, options);
-			MapCatalog.LoadMaps(options.MapCatalog);
+			var mapCat = new MapCatalog();
+			mapCat.LoadMaps(options.MapCatalog);
 
-			var tournament = new Tournament(maps, bots);
+			var tournament = new Tournament(mapCat, maps, bots);
 
 			tournament.Run();
 
@@ -62,27 +62,6 @@ namespace Cell
 				Console.WriteLine("The -n option must be defined.");
 				Environment.Exit(0);
 			}
-		}
-
-		private static Map GetMapFromCatalog(string catalogFilePath, string mapName) //TODO: Split this into 2 functions?
-		{
-			try
-			{
-				MapCatalog.LoadMaps(catalogFilePath);
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine("There was a problem loading the map catalog");
-				Console.WriteLine(e.Message);
-			}
-
-			var map = MapCatalog.GetMap(mapName);
-			if (map == null)
-			{
-				Console.WriteLine("Could not load map.");
-				Environment.Exit(0);
-			}
-			return map;
 		}
 
 	}

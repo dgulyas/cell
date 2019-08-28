@@ -14,6 +14,8 @@ namespace Cell
 		//The names of the bot classes that should be in the tournament
 		private readonly List<string> m_bots;
 
+		private readonly MapCatalog m_mCatalog;
+
 		//The constructors for the bots. Used to create a new instance of a bot for each game.
 		private readonly Dictionary<string, ConstructorInfo> m_botConstructors = new Dictionary<string, ConstructorInfo>();
 
@@ -24,7 +26,7 @@ namespace Cell
 		//The value is the winning bot of the game with the tuple's bots/map
 		private readonly Dictionary<Tuple<string,string,string>, string> m_results = new Dictionary<Tuple<string, string, string>, string>();
 
-		public Tournament(List<string> maps, List<string> bots)
+		public Tournament(MapCatalog mCatalog, List<string> maps, List<string> bots)
 		{
 			if (maps == null || maps.Count < 1)
 			{
@@ -38,8 +40,18 @@ namespace Cell
 				Environment.Exit(0);
 			}
 
+			foreach (var map in maps)
+			{
+				if (!mCatalog.MapExists(map))
+				{
+					Console.WriteLine($"Can't find map '{map}' in map catalog.");
+					Environment.Exit(0);
+				}
+			}
+
 			m_maps = maps;
 			m_bots = bots;
+			m_mCatalog = mCatalog;
 		}
 
 		public void Run()
@@ -77,7 +89,7 @@ namespace Cell
 				var bot1 = m_botConstructors[pairing.Item1].Invoke(new object[] { });
 				var bot2 = m_botConstructors[pairing.Item2].Invoke(new object[] { });
 				var botList = new List<IBot>{(IBot)bot1, (IBot)bot2};
-				var map = MapCatalog.GetMap(pairing.Item3);
+				var map = m_mCatalog.GetMap(pairing.Item3);
 
 				var game = new Game(map, botList);
 
@@ -114,7 +126,7 @@ namespace Cell
 			var allMapsExist = true;
 			foreach (var map in m_maps)
 			{
-				if (!MapCatalog.MapExists(map))
+				if (!m_mCatalog.MapExists(map))
 				{
 					allMapsExist = false;
 					Console.WriteLine($"Could not find map:{map}");

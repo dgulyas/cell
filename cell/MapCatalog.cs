@@ -3,18 +3,18 @@ using Newtonsoft.Json;
 
 namespace Cell
 {
-	public static class MapCatalog //TODO: This class doesn't need to be static?
+	public class MapCatalog
 	{
-		public static Dictionary<string, Map> Maps;
+		public Dictionary<string, Map> Maps;
 
-		public static void LoadMaps(string mapJsonFile)
+		public void LoadMaps(string mapJsonFile)
 		{
 			string fileContents = "";
 			fileContents = System.IO.File.ReadAllText(mapJsonFile);
 			Maps = JsonConvert.DeserializeObject<Dictionary<string, Map>>(fileContents);
 		}
 
-		public static Map GetMap(string mapName)
+		public Map GetMap(string mapName)
 		{
 			if (!Maps.ContainsKey(mapName))
 			{
@@ -23,7 +23,7 @@ namespace Cell
 			return Maps[mapName].Clone();
 		}
 
-		public static bool MapExists(string mapName)
+		public bool MapExists(string mapName)
 		{
 			return Maps.ContainsKey(mapName);
 		}
