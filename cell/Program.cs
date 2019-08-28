@@ -43,26 +43,5 @@ namespace Cell
 			Console.ReadLine();
 		}
 
-		public static void CheckOptions(Options options) //TODO: Move this to the options class?
-		{
-			if (options.Help)
-			{
-				Console.Write(options.GetUsage());
-				Environment.Exit(0);
-			}
-
-			if (options.MapCatalog == null)
-			{
-				Console.WriteLine("The -c option must be defined.");
-				Environment.Exit(0);
-			}
-
-			if (options.MapName == null)
-			{
-				Console.WriteLine("The -n option must be defined.");
-				Environment.Exit(0);
-			}
-		}
-
 	}
 }

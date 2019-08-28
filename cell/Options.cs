@@ -1,4 +1,5 @@
-﻿using CommandLine;
+﻿using System;
+using CommandLine;
 using CommandLine.Text;
 
 namespace Cell
@@ -24,6 +25,27 @@ namespace Cell
 		{
 			return HelpText.AutoBuild(this,
 				current => HelpText.DefaultParsingErrorsHandler(this, current));
+		}
+
+		public void CheckValues()
+		{
+			if (Help)
+			{
+				Console.Write(GetUsage());
+				Environment.Exit(0);
+			}
+
+			if (MapCatalog == null)
+			{
+				Console.WriteLine("The -c option must be defined.");
+				Environment.Exit(0);
+			}
+
+			if (MapName == null)
+			{
+				Console.WriteLine("The -n option must be defined.");
+				Environment.Exit(0);
+			}
 		}
 	}
 }
