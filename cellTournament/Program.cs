@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Cell
+namespace CellTournament
 {
 	class Program
 	{

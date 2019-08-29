@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
-namespace Cell
+namespace CellTournament.Cell
 {
 	public class Map
 	{

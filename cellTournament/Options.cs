@@ -2,7 +2,7 @@
 using CommandLine;
 using CommandLine.Text;
 
-namespace Cell
+namespace CellTournament
 {
 	class Options
 	{

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using CellTournament.Cell;
 using NUnit.Framework;
 
-namespace Cell.Tests
+namespace CellTournament.Tests
 {
 	[TestFixture]
 	public class BoardTests

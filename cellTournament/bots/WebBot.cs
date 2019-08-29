@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using CellTournament.Cell;
 using Newtonsoft.Json;
 
 //Ideally this will start a web service that remote bots can use
 //to interact with the game.
-namespace Cell.Bots
+namespace CellTournament.Bots
 {
 	public class WebBot : IBot
 	{

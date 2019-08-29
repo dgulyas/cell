@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using CellTournament.Cell;
 
-namespace Cell.Bots
+namespace CellTournament.Bots
 {
 	class HumanBot : IBot
 	{

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using CellTournament.Cell;
 using Newtonsoft.Json;
 
-namespace Cell
+namespace CellTournament
 {
 	public class MapCatalog
 	{

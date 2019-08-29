@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using CellTournament.Cell;
 
-namespace Cell.Bots
+namespace CellTournament.Bots
 {
 	//This bot does nothing.
 	public class DoNothingBot : IBot

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace Cell
+namespace CellTournament.Cell
 {
 	public class Board
 	{

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using CellTournament.Cell;
 
-namespace Cell
+namespace CellTournament
 {
 	public static class AiHelper
 	{

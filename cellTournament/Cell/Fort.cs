@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Cell
+namespace CellTournament.Cell
 {
 	public class Fort
 	{

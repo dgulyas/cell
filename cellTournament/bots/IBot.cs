@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using CellTournament.Cell;
 
-namespace Cell.Bots
+namespace CellTournament.Bots
 {
 	public interface IBot
 	{

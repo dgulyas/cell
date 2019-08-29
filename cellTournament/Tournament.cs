@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Cell.Bots;
+using CellTournament.Bots;
+using CellTournament.Cell;
 
-namespace Cell
+namespace CellTournament
 {
 	class Tournament
 	{

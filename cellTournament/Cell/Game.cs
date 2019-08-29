@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cell.Bots;
+using CellTournament.Bots;
 
-namespace Cell
+namespace CellTournament.Cell
 {
 	public class Game
 	{

@@ -65,21 +65,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AiHelper.cs" />
-    <Compile Include="Board.cs" />
+    <Compile Include="Cell\Board.cs" />
     <Compile Include="Bots\BotOne.cs" />
     <Compile Include="Bots\DoNothingBot.cs" />
     <Compile Include="Bots\HumanBot.cs" />
     <Compile Include="Bots\WebBot.cs" />
-    <Compile Include="Fort.cs" />
-    <Compile Include="Game.cs" />
-    <Compile Include="GuyGroup.cs" />
+    <Compile Include="Cell\Fort.cs" />
+    <Compile Include="Cell\Game.cs" />
+    <Compile Include="Cell\GuyGroup.cs" />
     <Compile Include="Bots\IBot.cs" />
-    <Compile Include="Map.cs" />
+    <Compile Include="Cell\Map.cs" />
     <Compile Include="MapCatalog.cs" />
-    <Compile Include="Move.cs" />
+    <Compile Include="Cell\Move.cs" />
     <Compile Include="Options.cs" />
-    <Compile Include="Player.cs" />
-    <Compile Include="Point.cs" />
+    <Compile Include="Cell\Player.cs" />
+    <Compile Include="Cell\Point.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\BoardTests.cs" />

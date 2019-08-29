@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using CellTournament.Cell;
 
-namespace Cell.Bots
+namespace CellTournament.Bots
 {
 	//Send all available guys to the first enemy fort, every tick.
 	public class BotOne : IBot

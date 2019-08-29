@@ -1,4 +1,4 @@
-﻿namespace Cell
+﻿namespace CellTournament.Cell
 {
 	public class Move
 	{
