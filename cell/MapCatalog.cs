@@ -7,11 +7,10 @@ namespace Cell
 	{
 		public Dictionary<string, Map> Maps;
 
-		public void LoadMaps(string mapJsonFile)
+		public static MapCatalog Load(string mapJsonFile)
 		{
-			string fileContents = "";
-			fileContents = System.IO.File.ReadAllText(mapJsonFile);
-			Maps = JsonConvert.DeserializeObject<Dictionary<string, Map>>(fileContents);
+			var fileContents = System.IO.File.ReadAllText(mapJsonFile);
+			return new MapCatalog {Maps = JsonConvert.DeserializeObject<Dictionary<string, Map>>(fileContents)};
 		}
 
 		public Map GetMap(string mapName)
@@ -27,7 +26,6 @@ namespace Cell
 		{
 			return Maps.ContainsKey(mapName);
 		}
-
 
 		//This shouldn't be used, but is left here for testing.
 		public static Map MapOne2P()

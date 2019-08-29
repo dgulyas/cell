@@ -85,7 +85,7 @@ namespace Cell
 		}
 
 		public void ExecutePairings()
-		{ //TODO: Save the board state each turn and store it somewhere. Then dump it somewhere permanent when the game is done.
+		{ //TODO: Save the board state each turn and store it somewhere. Then dump it somewhere permanent when the game is done. Use options argument
 			foreach (var pairing in m_pairings)
 			{
 				var bot1 = m_botConstructors[pairing.Item1].Invoke(new object[] { });

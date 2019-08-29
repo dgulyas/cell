@@ -1,0 +1,4 @@
+{
+  "Bots":["DoNothingBot","BotOne"],
+  "Maps":["fourFortsSquare","threeFortsLine"]
+}

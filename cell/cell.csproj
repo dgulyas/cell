@@ -84,6 +84,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\BoardTests.cs" />
     <Compile Include="Tournament.cs" />
+    <Compile Include="TournamentConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
