@@ -6,7 +6,7 @@ namespace CellTournament.Cell
 	{
 		public List<Fort> Forts = new List<Fort>();
 		public List<Player> Players => Forts.Where(f => f.FortOwner != null).Select(f => f.FortOwner).Distinct().ToList();
-		public int NumPlayers => Players.Count;
+		public int NumPlayers => Players.Count; //TODO: This should be being used??
 
 		public Map Clone()
 		{

@@ -11,11 +11,11 @@ namespace CellTournament.Bots
 	{
 		private Player m_player;
 
-		private string jsonBoard;
+		private string m_jsonBoard;
 
 		public List<Move> Do(Board board)
 		{
-			jsonBoard = JsonConvert.SerializeObject(board);
+			m_jsonBoard = JsonConvert.SerializeObject(board);
 			Console.WriteLine();
 			return new List<Move>();
 		}

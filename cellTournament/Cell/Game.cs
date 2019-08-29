@@ -10,7 +10,7 @@ namespace CellTournament.Cell
 		public int Turn;
 		private readonly Board m_board;
 		private readonly List<IBot> m_bots;
-		private readonly Dictionary<IBot, Player> botPlayerMapping;
+		private readonly Dictionary<IBot, Player> m_botPlayerMapping;
 
 		public Game(Map map, List<IBot> bots)
 		{
@@ -21,11 +21,11 @@ namespace CellTournament.Cell
 				throw new Exception("The selected map doesn't have enough player starting positions.");
 			}
 
-			botPlayerMapping = new Dictionary<IBot, Player>();
+			m_botPlayerMapping = new Dictionary<IBot, Player>();
 			for (int i = 0; i < m_bots.Count; i++) //assign each bot a player
 			{
 				m_bots[i].SetPlayer(map.Players[i]);
-				botPlayerMapping.Add(m_bots[i], map.Players[i]);
+				m_botPlayerMapping.Add(m_bots[i], map.Players[i]);
 			}
 
 			m_board = new Board();
@@ -57,7 +57,7 @@ namespace CellTournament.Cell
 			{
 				foreach (var move in moveDict[bot])
 				{
-					m_board.DoMove(move, botPlayerMapping[bot]);
+					m_board.DoMove(move, m_botPlayerMapping[bot]);
 				}
 			}
 
@@ -66,12 +66,12 @@ namespace CellTournament.Cell
 
 		public IBot GetBotAssignedToPlayer(Player player)
 		{ //this assumes that every player is only assigned to one bot
-			return botPlayerMapping.FirstOrDefault(m => m.Value == player).Key;
+			return m_botPlayerMapping.FirstOrDefault(m => m.Value == player).Key;
 		}
 
 		public override string ToString()
 		{
-			return $"Turn: {Turn}{Environment.NewLine}" + m_board.ToString();
+			return $"Turn: {Turn}{Environment.NewLine}" + m_board;
 		}
 	}
 }

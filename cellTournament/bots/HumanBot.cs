@@ -42,8 +42,7 @@ namespace CellTournament.Bots
 
 			foreach (var moveStringToken in moveStringTokens)
 			{
-				int parseResult;
-				if (int.TryParse(moveStringToken, out parseResult))
+				if (int.TryParse(moveStringToken, out var parseResult))
 				{
 					moveIntTokens.Add(parseResult);
 				}
