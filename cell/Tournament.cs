@@ -24,7 +24,7 @@ namespace Cell
 		//string, string, string -> botName, botName, mapName. Those bots will fight on that map.
 		private readonly List<Tuple<string, string, string>> m_pairings = new List<Tuple<string, string, string>>();
 
-		//The value is the winning bot of the game with the tuple's bots/map
+		//The value is the winning bot of the game with the tuple's bots/map. Null value indicates a tie.
 		private readonly Dictionary<Tuple<string,string,string>, string> m_results = new Dictionary<Tuple<string, string, string>, string>();
 
 		public Tournament(MapCatalog mCatalog, List<string> maps, List<string> bots)
@@ -79,7 +79,8 @@ namespace Cell
 		{
 			foreach (var pairing in m_results.Keys)
 			{
-				Console.WriteLine($"{pairing.Item1} vs {pairing.Item2} on {pairing.Item3}: Winner {m_results[pairing]}");
+				var winner = m_results[pairing] ?? "Tie";
+				Console.WriteLine($"{pairing.Item1} vs {pairing.Item2} on {pairing.Item3}: Winner {winner}");
 			}
 		}
 
@@ -111,7 +112,7 @@ namespace Cell
 
 				if (gameWasATie)
 				{
-					m_results[pairing] = "Game Was A Tie";
+					m_results[pairing] = null;
 				}
 				else
 				{
