@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using CellTournament.Bots;
 using CellTournament.Cell;
 
@@ -30,25 +31,13 @@ namespace CellTournament
 
 		public Tournament(MapCatalog mCatalog, List<string> maps, List<string> bots)
 		{
-			if (maps == null || maps.Count < 1)
+			var errorSb = new StringBuilder();
+			PopulateBotConstructors();
+			CheckBots(bots, errorSb);
+			CheckMaps(maps, mCatalog, errorSb);
+			if (errorSb.Length > 0)
 			{
-				Console.WriteLine("A tournament needs at least one map.");
-				Environment.Exit(0);
-			}
-
-			if (bots == null || bots.Count < 2)
-			{
-				Console.WriteLine("A tournament needs at least two bots.");
-				Environment.Exit(0);
-			}
-
-			foreach (var map in maps)
-			{
-				if (!mCatalog.MapExists(map))
-				{
-					Console.WriteLine($"Can't find map '{map}' in map catalog.");
-					Environment.Exit(0);
-				}
+				throw  new Exception(errorSb.ToString());
 			}
 
 			m_maps = maps;
@@ -56,19 +45,11 @@ namespace CellTournament
 			m_mCatalog = mCatalog;
 		}
 
-		public void Run()
+		public string Run()
 		{
-			PopulateBotConstructors();
-			if (!BotsExist() | !MapsExist()) // use | to avoid short circuiting. Want to always do both functions.
-			{
-				return;
-			}
-
 			GenerateRoundRobinPairings();
-
 			ExecutePairings();
-
-			PrintResults(); //TODO: This class shouldn't be printing to the console. Make function to return results as string.
+			return PrintResults();
 		}
 
 		public string FindWinner() //TODO: Write this function
@@ -76,13 +57,16 @@ namespace CellTournament
 			return "a";
 		}
 
-		public void PrintResults()
+		public string PrintResults()
 		{
+			var sb = new StringBuilder();
 			foreach (var pairing in m_results.Keys)
 			{
 				var winner = m_results[pairing] ?? "Tie";
-				Console.WriteLine($"{pairing.Item1} vs {pairing.Item2} on {pairing.Item3}: Winner {winner}");
+				sb.AppendLine($"{pairing.Item1} vs {pairing.Item2} on {pairing.Item3}: Winner {winner}");
 			}
+
+			return sb.ToString();
 		}
 
 		public void ExecutePairings()
@@ -139,34 +123,42 @@ namespace CellTournament
 
 		//Check that the maps we want to use are in the map catalog
 		//A map will be in the catalog if it was deserialized from the file passed in as a command line argument
-		public bool MapsExist()
+		public void CheckMaps(List<string> maps, MapCatalog mCatalog, StringBuilder errorSb)
 		{
-			var allMapsExist = true;
-			foreach (var map in m_maps)
+			if (maps == null || maps.Count < 1)
 			{
-				if (!m_mCatalog.MapExists(map))
+				errorSb.AppendLine("ERROR: A tournament needs at least one map.");
+			}
+			else
+			{
+				foreach (var map in maps)
 				{
-					allMapsExist = false;
-					Console.WriteLine($"Could not find map:{map}");
+					if (!mCatalog.MapExists(map))
+					{
+						errorSb.AppendLine($"ERROR: Can't find map '{map}' in map catalog.");
+					}
 				}
 			}
-			return allMapsExist;
 		}
 
 		//Check that the bots we want to be in the tournament exist
 		//A bot exists if there's a class with it's name that implements IBot
-		public bool BotsExist()
+		public void CheckBots(List<string> bots, StringBuilder errorSb)
 		{
-			var allBotsFound = true;
-			foreach (var bot in m_bots)
+			if (bots == null || bots.Count < 2)
 			{
-				if (!m_botConstructors.Keys.Contains(bot))
+				errorSb.AppendLine("ERROR: A tournament needs at least two bots.");
+			}
+			else
+			{
+				foreach (var bot in bots)
 				{
-					allBotsFound = false;
-					Console.WriteLine($"ERROR: Could not find bot:{bot}.");
+					if (!m_botConstructors.Keys.Contains(bot))
+					{
+						errorSb.AppendLine($"ERROR: Could not find bot:{bot}.");
+					}
 				}
 			}
-			return allBotsFound;
 		}
 
 		public void PopulateBotConstructors()

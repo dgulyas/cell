@@ -17,7 +17,8 @@ namespace CellTournament
 			//tc.Bots = new List<string> { "DoNothingBot", "BotOne" };
 
 			var tournament = new Tournament(mapCat, tc.Maps, tc.Bots);
-			tournament.Run();
+			var results = tournament.Run();
+			Console.WriteLine(results);
 
 			Console.ReadLine();
 		}
