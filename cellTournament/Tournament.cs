@@ -27,7 +27,10 @@ namespace CellTournament
 		private readonly List<Tuple<string, string, string>> m_pairings = new List<Tuple<string, string, string>>();
 
 		//The value is the winning bot of the game with the tuple's bots/map. Null value indicates a tie.
-		private readonly Dictionary<Tuple<string,string,string>, string> m_results = new Dictionary<Tuple<string, string, string>, string>();
+		private readonly Dictionary<Tuple<string,string,string>, string> m_matchResults = new Dictionary<Tuple<string, string, string>, string>();
+
+		//Key is a bot name. Value is an array holding the bot's #wins, #draws, #losses
+		private readonly Dictionary<string, int[]> m_botRecords = new Dictionary<string, int[]>();
 
 		public Tournament(MapCatalog mCatalog, List<string> maps, List<string> bots)
 		{
@@ -48,25 +51,40 @@ namespace CellTournament
 		public string Run()
 		{
 			GenerateRoundRobinPairings();
+			InitializeBotRecords();
 			ExecutePairings();
 			return PrintResults();
 		}
 
-		public string FindWinner() //TODO: Write this function
+		private void InitializeBotRecords()
 		{
-			return "a";
+			foreach (var bot in m_bots)
+			{
+				m_botRecords.Add(bot, new[]{0,0,0}); //TODO: Can't have the same bot play itself.
+			}
 		}
 
 		public string PrintResults()
 		{
 			var sb = new StringBuilder();
-			foreach (var pairing in m_results.Keys)
+			foreach (var pairing in m_matchResults.Keys)
 			{
-				var winner = m_results[pairing] ?? "Tie";
+				var winner = m_matchResults[pairing] ?? "Tie";
 				sb.AppendLine($"{pairing.Item1} vs {pairing.Item2} on {pairing.Item3}: Winner {winner}");
 			}
 
+			sb.AppendLine("Bot/wins/ties/losses");
+			foreach (var botRecord in m_botRecords)
+			{
+				sb.AppendLine($"{botRecord.Key}/{botRecord.Value[0]}/{botRecord.Value[1]}/{botRecord.Value[2]}");
+			}
+
 			return sb.ToString();
+		}
+
+		private string FindWinner()
+		{
+			return "";
 		}
 
 		public void ExecutePairings()
@@ -97,11 +115,18 @@ namespace CellTournament
 
 				if (gameWasATie)
 				{
-					m_results[pairing] = null;
+					m_matchResults[pairing] = null;
+					m_botRecords[pairing.Item1][1]++;
+					m_botRecords[pairing.Item2][1]++;
 				}
 				else
 				{
-					m_results[pairing] = game.GetBotAssignedToPlayer(winningPlayer).GetType().Name;
+					var winningBotName = game.GetBotAssignedToPlayer(winningPlayer).GetType().Name;
+					var losingBotName = winningBotName == pairing.Item1 ? pairing.Item2 : pairing.Item1; //get the bot that isn't the winner
+
+					m_matchResults[pairing] = winningBotName;
+					m_botRecords[winningBotName][0]++;
+					m_botRecords[losingBotName][2]++;
 				}
 			}
 		}

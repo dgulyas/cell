@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AiHelper.cs" />
+    <Compile Include="Bots\DoNothingBot2.cs" />
     <Compile Include="Cell\Board.cs" />
     <Compile Include="Bots\BotOne.cs" />
     <Compile Include="Bots\DoNothingBot.cs" />
