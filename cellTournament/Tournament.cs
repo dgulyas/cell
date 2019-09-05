@@ -67,24 +67,56 @@ namespace CellTournament
 		public string PrintResults()
 		{
 			var sb = new StringBuilder();
+
+			sb.AppendLine("Match Results");
+			sb.AppendLine("-------------");
 			foreach (var pairing in m_matchResults.Keys)
 			{
 				var winner = m_matchResults[pairing] ?? "Tie";
 				sb.AppendLine($"{pairing.Item1} vs {pairing.Item2} on {pairing.Item3}: Winner {winner}");
 			}
 
+			sb.AppendLine();
+
 			sb.AppendLine("Bot/wins/ties/losses");
+			sb.AppendLine("--------------------");
 			foreach (var botRecord in m_botRecords)
 			{
 				sb.AppendLine($"{botRecord.Key}/{botRecord.Value[0]}/{botRecord.Value[1]}/{botRecord.Value[2]}");
 			}
 
+			sb.AppendLine();
+			var winners = FindWinners();
+			sb.Append($"Winner(s): ");
+			foreach (var winner in winners)
+			{
+				sb.Append(winner + " ");
+			}
+
+			sb.AppendLine();
+
 			return sb.ToString();
 		}
 
-		private string FindWinner()
+		private List<string> FindWinners()
 		{
-			return "";
+			var winningBots = new List<string>();
+			var winningRecord = new[]{-1, -1, -1};
+			foreach (var botRecord in m_botRecords)
+			{
+				if (botRecord.Value[0] > winningRecord[0] || botRecord.Value[0] > winningRecord[0] && botRecord.Value[1] > winningRecord[1])
+				{ //if there are more wins, or the same number of wins but more ties
+					winningBots.Clear();
+					winningBots.Add(botRecord.Key);
+					winningRecord = botRecord.Value;
+				}
+				else if(botRecord.Value[0] == winningRecord[0] && botRecord.Value[1] == winningRecord[1]) //if same number of wins and ties
+				{
+					winningBots.Add(botRecord.Key);
+				}
+			}
+
+			return winningBots;
 		}
 
 		public void ExecutePairings()

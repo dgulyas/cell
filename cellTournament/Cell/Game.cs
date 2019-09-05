@@ -15,8 +15,9 @@ namespace CellTournament.Cell
 		public Game(Map map, List<IBot> bots)
 		{
 			m_bots = bots;
+			var players = map.GetPlayers();
 
-			if (m_bots.Count < map.Players.Count)
+			if (m_bots.Count < players.Count)
 			{
 				throw new Exception("The selected map doesn't have enough player starting positions.");
 			}
@@ -24,8 +25,8 @@ namespace CellTournament.Cell
 			m_botPlayerMapping = new Dictionary<IBot, Player>();
 			for (int i = 0; i < m_bots.Count; i++) //assign each bot a player
 			{
-				m_bots[i].SetPlayer(map.Players[i]);
-				m_botPlayerMapping.Add(m_bots[i], map.Players[i]);
+				m_bots[i].SetPlayer(players[i]);
+				m_botPlayerMapping.Add(m_bots[i], players[i]);
 			}
 
 			m_board = new Board();
