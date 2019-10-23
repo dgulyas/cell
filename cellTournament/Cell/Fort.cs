@@ -5,19 +5,18 @@ namespace CellTournament.Cell
 	public class Fort
 	{
 		public Point Location;
-		public Player FortOwner;
 		public int BirthSpeed;
-
 		public int NumDefendingGuys;
+		public Player FortOwner;
 
-		private static int InstanceCounter;
+		private static int m_instanceCounter;
 		[JsonIgnore]
 		public int ID;
 
 		public Fort()
 		{
-			ID = InstanceCounter;
-			InstanceCounter++;
+			ID = m_instanceCounter;
+			m_instanceCounter++;
 		}
 
 		public void CreateGuys()
@@ -55,6 +54,11 @@ namespace CellTournament.Cell
 				FortOwner = attackingPlayer;
 				NumDefendingGuys *= -1;
 			}
+		}
+
+		public string GetOwnerName()
+		{
+			return FortOwner?.Name;
 		}
 
 		public override string ToString()

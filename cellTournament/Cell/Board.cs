@@ -66,12 +66,10 @@ namespace CellTournament.Cell
 		{
 			var sb = new StringBuilder();
 
-			//sb.AppendLine($"{Environment.NewLine}Turn:{Turn}");
-
-			for (int i = 0; i < Forts.Count; i++)
+			foreach (var fortKey in Forts.Keys)
 			{
-				sb.Append(Forts[i]);
-				sb.AppendLine($" Index:{i}");
+				sb.Append(Forts[fortKey]);
+				sb.AppendLine($" Index:{fortKey}");
 			}
 
 			foreach (var gg in TravelingGGs)
@@ -96,6 +94,11 @@ namespace CellTournament.Cell
 			}
 
 			return b;
+		}
+
+		public List<string> GetPlayerList()
+		{
+			return Forts.Values.Select(f => f.FortOwner).Where(fo => fo != null).Distinct().Select(p => p.Name).ToList();
 		}
 
 	}

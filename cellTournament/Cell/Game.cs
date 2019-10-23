@@ -43,8 +43,6 @@ namespace CellTournament.Cell
 		public Player RunGameTurn()
 		{
 			Turn++;
-			m_board.CreateGuys();
-			m_board.MoveGuyGroups();
 
 			var moveDict = new Dictionary<IBot, List<Move>>();
 
@@ -62,6 +60,9 @@ namespace CellTournament.Cell
 				}
 			}
 
+			m_board.CreateGuys();
+			m_board.MoveGuyGroups();
+
 			return m_board.GetTheWinner();
 		}
 
@@ -73,6 +74,11 @@ namespace CellTournament.Cell
 		public override string ToString()
 		{
 			return $"Turn: {Turn}{Environment.NewLine}" + m_board;
+		}
+
+		public List<string> GetPlayerList()
+		{
+			return m_board.GetPlayerList();
 		}
 	}
 }

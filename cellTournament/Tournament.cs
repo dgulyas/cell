@@ -10,13 +10,13 @@ namespace CellTournament
 {
 	class Tournament
 	{
-		//The names of the maps that every bot pairing will play on
-		private readonly List<string> m_maps;
+		//The names of the maps that every pair of bots will play on
+		private readonly List<string> m_mapNames;
 
 		//The names of the bot classes that should be in the tournament
-		private readonly List<string> m_bots;
+		private readonly List<string> m_botNames;
 
-		//The collection of maps. Must contain a map matching every map name in m_maps.
+		//The collection of maps. Must contain a map matching every map name in m_mapNames.
 		private readonly MapCatalog m_mCatalog;
 
 		//The constructors for the bots. Used to create a new instance of a bot for each game.
@@ -43,8 +43,8 @@ namespace CellTournament
 				throw  new Exception(errorSb.ToString());
 			}
 
-			m_maps = maps;
-			m_bots = bots;
+			m_mapNames = maps;
+			m_botNames = bots;
 			m_mCatalog = mCatalog;
 		}
 
@@ -58,7 +58,7 @@ namespace CellTournament
 
 		private void InitializeBotRecords()
 		{
-			foreach (var bot in m_bots)
+			foreach (var bot in m_botNames)
 			{
 				m_botRecords.Add(bot, new[]{0,0,0}); //TODO: Can't have the same bot play itself.
 			}
@@ -130,10 +130,13 @@ namespace CellTournament
 
 				var game = new Game(map, botList);
 
+				Console.WriteLine($"New game Bots: {pairing.Item1},{pairing.Item2} Map: {pairing.Item3}");
+
 				var gameWasATie = false;
 				Player winningPlayer = null;
 				do
 				{  //TODO: The game updates the state then gets the moves from the bots. This doesn't let the board be printed inbetween, so console has old info for the humanBot to use.
+					Console.WriteLine(game);
 					if (game.Turn > 4000) //Game has gone on too long. Declare a tie.
 					{
 						gameWasATie = true;
@@ -166,13 +169,13 @@ namespace CellTournament
 		public void GenerateRoundRobinPairings()
 		{
 			m_pairings.Clear();
-			for (int i = 0; i < m_bots.Count-1; i++) //iterate though all bots, excluding the last one
+			for (int i = 0; i < m_botNames.Count-1; i++) //iterate though all bots, excluding the last one
 			{
-				for (int j = i + 1; j < m_bots.Count; j++) //iterate from the bot after bot i, to the last one
+				for (int j = i + 1; j < m_botNames.Count; j++) //iterate from the bot after bot i, to the last one
 				{
-					foreach (var map in m_maps)
+					foreach (var map in m_mapNames)
 					{
-						m_pairings.Add(new Tuple<string, string, string>(m_bots[i], m_bots[j], map));
+						m_pairings.Add(new Tuple<string, string, string>(m_botNames[i], m_botNames[j], map));
 					}
 				}
 			}

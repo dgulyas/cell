@@ -1,4 +1,4 @@
 {
   "Bots":["DoNothingBot","BotOne"],
-  "Maps":["fourFortsSquare","threeFortsLine", "sixteenFortsSquare"]
+  "Maps":["fourFortsSquare","threeFortsLine"]
 }
