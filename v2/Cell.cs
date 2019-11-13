@@ -213,6 +213,8 @@ namespace Cell
 		public int BirthSpeed;
 		public int NumDefendingGuys;
 		public string FortOwner;
+		public int DefensiveBonus;
+		public GuyType BirthingType;
 	}
 
 	public class GuyGroup
