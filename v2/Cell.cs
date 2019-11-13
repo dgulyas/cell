@@ -8,21 +8,21 @@ namespace Cell
 {
 	public class Cell : IGame
 	{
-		private readonly Dictionary<string, IBot> m_nameToBot = new Dictionary<string, IBot>();
-		//private Dictionary<IBot, string> m_botToName = new Dictionary<IBot, string>(); //Is this needed? Finding which bot won. But the tourney class does that?
+		private readonly Dictionary<string, IBot> m_playerNameToBot = new Dictionary<string, IBot>();
 
 		private List<Fort> Forts;
 		private List<GuyGroup> TravelingGGs = new List<GuyGroup>();
 
 		private int m_turnNumber = 0;
-		private StringBuilder m_log;
 
 		//returns the name of the winning bot. Null if it's a tie.
 		public string PlayGame(string jsonForts, Dictionary<string, IBot> players, StringBuilder gameState)
 		{
+			var turnStates = new List<BoardState>();
+
 			Forts = JsonConvert.DeserializeObject<List<Fort>>(jsonForts);
-			CheckForts();
-			SetBotMappings(players);
+			ValidateForts();
+			SetBotMapping(players);
 
 			var gameTied = false;
 			var winner = GetTheWinner();
@@ -36,17 +36,23 @@ namespace Cell
 					break;
 				}
 
-				var boardState = MakeJsonBoardState();
-				gameState.AppendLine(boardState);
-				var moves = GetMovesFromBots(boardState);
+				var jsonBoardState = MakeJsonBoardState();
+
+				//deserializing it means we get a copy that won't change
+				turnStates.Add(JsonConvert.DeserializeObject<BoardState>(jsonBoardState));
+
+				var moves = GetMovesFromBots(jsonBoardState);
 				ExecuteMoves(moves);
 				Tick();
 				winner = GetTheWinner();
 			}
+
+			gameState.Append(JsonConvert.SerializeObject(turnStates));
+
 			return gameTied ? null : winner;
 		}
 
-		private void CheckForts()
+		private void ValidateForts()
 		{
 			//The IDs of all the forts must be unique.
 			//We let the map creator set the IDs because
@@ -59,17 +65,21 @@ namespace Cell
 					throw new Exception("2 forts have the same ID");
 				}
 
+				if (fort.BirthSpeed < 0)
+				{
+					throw new Exception($"Fort '{fort.ID}' birthspeed can't be negative.");
+				}
+
 				fortIDs.Add(fort.ID);
 			}
 		}
 
 		//This creates a 2 way mapping between player names and the bots.
-		private void SetBotMappings(Dictionary<string, IBot> players)
+		private void SetBotMapping(Dictionary<string, IBot> players)
 		{
 			foreach (var playerKey in players.Keys)
 			{
-				m_nameToBot.Add(playerKey, players[playerKey]);
-				//m_botToName.Add(players[playerKey], playerKey);
+				m_playerNameToBot.Add(playerKey, players[playerKey]);
 			}
 		}
 
@@ -90,7 +100,7 @@ namespace Cell
 
 		private string MakeJsonBoardState()
 		{
-			var bs = new BoardState {TurnNumber = m_turnNumber, Forts = Forts, GuyGroups = TravelingGGs};
+			var bs = new BoardState { TurnNumber = m_turnNumber, Forts = Forts, GuyGroups = TravelingGGs };
 			return JsonConvert.SerializeObject(bs);
 		}
 
@@ -102,7 +112,7 @@ namespace Cell
 			var remainingPlayers = GetPlayerList();
 			foreach (var player in remainingPlayers)
 			{
-				var moves = m_nameToBot[player].Do(jsonBoardState);
+				var moves = m_playerNameToBot[player].Do(jsonBoardState);
 				botMoves.Add(player, moves);
 			}
 
@@ -129,7 +139,7 @@ namespace Cell
 					}
 
 					sourceFort.NumDefendingGuys -= numGuysToMove;
-					var distanceBetweenForts = GetDistanceTo(sourceFort.Location, destFort.Location);
+					var distanceBetweenForts = GetDistanceBetween(sourceFort.Location, destFort.Location);
 					var gg = new GuyGroup{DestinationFortID = destFort.ID, GroupOwner = player, NumGuys = numGuysToMove, TicksTillFinished = (int)distanceBetweenForts};
 					TravelingGGs.Add(gg);
 				}
@@ -147,7 +157,7 @@ namespace Cell
 			return null;
 		}
 
-		private double GetDistanceTo(Point source, Point dest)
+		private double GetDistanceBetween(Point source, Point dest)
 		{
 			double dX = source.X - dest.X;
 			double dY = source.Y - dest.Y;
@@ -204,6 +214,27 @@ namespace Cell
 		public int TurnNumber;
 		public List<Fort> Forts;
 		public List<GuyGroup> GuyGroups;
+
+		public override string ToString()
+		{
+			var sb = new StringBuilder();
+
+			sb.AppendLine($"Turn:{TurnNumber}");
+
+			sb.AppendLine("Forts:");
+			foreach (var fort in Forts)
+			{
+				sb.AppendLine(fort.ToString());
+			}
+
+			sb.AppendLine("GuyGroups:");
+			foreach (var gg in GuyGroups)
+			{
+				sb.AppendLine(gg.ToString());
+			}
+
+			return sb.ToString();
+		}
 	}
 
 	public class Fort
@@ -215,6 +246,11 @@ namespace Cell
 		public string FortOwner;
 		public int DefensiveBonus;
 		public GuyType BirthingType;
+
+		public override string ToString()
+		{
+			return $"ID:{ID} BS:{BirthSpeed} Loc:{Location} Owner:{FortOwner} Guys:{NumDefendingGuys}";
+		}
 	}
 
 	public class GuyGroup
@@ -223,6 +259,11 @@ namespace Cell
 		public int NumGuys;
 		public int TicksTillFinished;
 		public int DestinationFortID;
+
+		public override string ToString()
+		{
+			return $"Owner:{GroupOwner} Guys:{NumGuys} Dest:{DestinationFortID} TicksLeft{TicksTillFinished}";
+		}
 	}
 
 	public class Move
@@ -236,5 +277,10 @@ namespace Cell
 	{
 		public int X;
 		public int Y;
+
+		public override string ToString()
+		{
+			return $"{X},{Y}";
+		}
 	}
 }
