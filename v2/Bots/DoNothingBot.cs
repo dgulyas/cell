@@ -5,9 +5,9 @@ namespace Cell.Bots
 {
 	class DoNothingBot : IBot
 	{
-		public List<Tuple<int, int, int>> Do(string board)
+		public List<Move> Do(string board)
 		{
-			return new List<Tuple<int, int, int>>();
+			return new List<Move>();
 		}
 
 		public void SetPlayer(string player)
