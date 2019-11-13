@@ -3,16 +3,17 @@ using System.Collections.Generic;
 
 namespace Cell.Bots
 {
-	class DoNothingBot : IBot
+	class DoNothingBot : BaseBot
 	{
-		public List<Move> Do(string board)
+		public override List<Move> Do(string boardString)
 		{
 			return new List<Move>();
 		}
 
-		public void SetPlayer(string player)
-		{
-		}
 
+		public override List<Guy> SetStartingArmy()
+		{
+			return new List<Guy>();
+		}
 	}
 }

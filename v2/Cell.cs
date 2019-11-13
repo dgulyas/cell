@@ -14,6 +14,7 @@ namespace Cell
 		private List<GuyGroup> TravelingGGs = new List<GuyGroup>();
 
 		private int m_turnNumber = 0;
+		private const int MAX_TURNS = 5000;
 
 		//returns the name of the winning bot. Null if it's a tie.
 		public string PlayGame(string jsonForts, Dictionary<string, IBot> players, StringBuilder gameState)
@@ -29,8 +30,7 @@ namespace Cell
 			while (winner == null)
 			{
 				m_turnNumber++;
-
-				if (m_turnNumber > 5000)
+				if (m_turnNumber > MAX_TURNS)
 				{
 					gameTied = true;
 					break;
@@ -131,16 +131,26 @@ namespace Cell
 						continue;
 					}
 
-					var sourceFort = move.Source;
-					var destFort = move.Destination;
-					if (sourceFort == null || destFort == null || sourceFort.FortOwner != player || sourceFort.NumDefendingGuys < numGuysToMove)
+					var sourceFort = GetFortByID(move.SourceFortID);
+					var destFort = GetFortByID(move.DestinationFortID);
+					var toRemove = sourceFort.DefendingGuys.Where(g => g.Type == move.GuyType).Take(numGuysToMove).ToList();
+
+					if (sourceFort == null || destFort == null || sourceFort.FortOwner != player || toRemove.Count < numGuysToMove)
 					{
 						continue;
 					}
 
-					sourceFort.NumDefendingGuys -= numGuysToMove;
+					// only remove the amount requested, not all
+					var toMove = new List<Guy>();
+					for (var i = 0; i < numGuysToMove; i++)
+					{
+						sourceFort.DefendingGuys.Remove(toRemove[i]);
+						toMove.Add(toRemove[i]);
+					}
+
+					// TODO: divide groups by speed?
 					var distanceBetweenForts = GetDistanceBetween(sourceFort.Location, destFort.Location);
-					var gg = new GuyGroup{DestinationFortID = destFort.ID, GroupOwner = player, NumGuys = numGuysToMove, TicksTillFinished = (int)distanceBetweenForts};
+					var gg = new GuyGroup{DestinationFort = destFort, GroupOwner = player, Guys = toMove, TicksTillFinished = (int)distanceBetweenForts};
 					TravelingGGs.Add(gg);
 				}
 			}
@@ -148,13 +158,7 @@ namespace Cell
 
 		private Fort GetFortByID(int id)
 		{
-			var forts = Forts.Where(f => f.ID == id).ToList();
-			if (forts.Count == 1)
-			{
-				return forts[0];
-			}
-
-			return null;
+			return Forts.Where(f => f.ID == id).FirstOrDefault();
 		}
 
 		private double GetDistanceBetween(Point source, Point dest)
@@ -168,7 +172,10 @@ namespace Cell
 		{
 			foreach (var fort in Forts)
 			{
-				fort.NumDefendingGuys += fort.BirthSpeed;
+				for (var i = 0; i < fort.BirthSpeed; i++)
+				{
+					fort.DefendingGuys.Add(GuyFactory.CreateGuy(fort.BirthingType));
+				}
 			}
 
 			foreach (var gg in TravelingGGs)
@@ -184,25 +191,74 @@ namespace Cell
 				}
 			}
 
-			TravelingGGs.RemoveAll(gg => gg.NumGuys == 0);
+			TravelingGGs.RemoveAll(gg => gg.Guys.Count == 0);
 		}
 
 		private void EnterFort(GuyGroup gg)
 		{
-			var destFort = GetFortByID(gg.DestinationFortID);
-			if (gg.GroupOwner == destFort.FortOwner)
+			var destFort = gg.DestinationFort;
+
+			// if fort is empty
+			if (destFort.FortOwner == null)
 			{
-				destFort.NumDefendingGuys += gg.NumGuys;
-				gg.NumGuys = 0;
+				destFort.FortOwner = gg.GroupOwner;
+				destFort.DefendingGuys = gg.Guys;
+				gg.Guys = new List<Guy>();
 			}
+			// if player is reinforcing
+			else if (gg.GroupOwner == destFort.FortOwner)
+			{
+				destFort.DefendingGuys.Concat(gg.Guys);
+				gg.Guys = new List<Guy>();
+			}
+			// if player is attacking
 			else
 			{
-				destFort.NumDefendingGuys -= gg.NumGuys;
-				if (destFort.NumDefendingGuys < 0)
+				// each team stabs each other at the same time, and then deaths are calculated
+				while (gg.Guys.Count > 0 && destFort.DefendingGuys.Count > 0)
+				{
+					var totalAttackerDmg = gg.Guys.Sum(g => g.Strength);
+					var totalDefenderDmg = destFort.DefendingGuys.Sum(g => g.Strength);
+
+					var numAttackers = gg.Guys.Count;
+					var numDefenders = destFort.DefendingGuys.Count;
+
+					// apply damage to defenders
+					for (var i=0; i < totalAttackerDmg; i++)
+					{
+						var defender = destFort.DefendingGuys[i % numDefenders];
+						if (defender.Health > 0)
+						{
+							defender.Health--;
+						}
+					}
+
+					// apply damage to attackers
+					for (var i = 0; i < totalDefenderDmg; i++)
+					{
+						var attacker = gg.Guys[i % numAttackers];
+						if (attacker.Health > 0)
+						{
+							attacker.Health--;
+						}
+					}
+
+					// remove dead guys from lists
+					gg.Guys.RemoveAll(g => g.Health <= 0);
+					destFort.DefendingGuys.RemoveAll(g => g.Health <= 0);
+				}
+
+				// defender wins
+				if (gg.Guys.Count == 0)
+				{
+					// do nothing
+				}
+				// attacker wins
+				if (destFort.DefendingGuys.Count == 0)
 				{
 					destFort.FortOwner = gg.GroupOwner;
-					destFort.NumDefendingGuys *= -1;
-					gg.NumGuys = 0;
+					destFort.DefendingGuys = gg.Guys;
+					gg.Guys = new List<Guy>();
 				}
 			}
 		}
@@ -242,35 +298,37 @@ namespace Cell
 		public int ID;
 		public Point Location;
 		public int BirthSpeed;
-		public int NumDefendingGuys;
+		public List<Guy> DefendingGuys;
 		public string FortOwner;
 		public int DefensiveBonus;
 		public GuyType BirthingType;
 
 		public override string ToString()
 		{
-			return $"ID:{ID} BS:{BirthSpeed} Loc:{Location} Owner:{FortOwner} Guys:{NumDefendingGuys}";
+			return $"ID:{ID} BS:{BirthSpeed} Loc:{Location} Owner:{FortOwner} Guys:{DefendingGuys.Count}";
 		}
 	}
 
 	public class GuyGroup
 	{
 		public string GroupOwner;
-		public int NumGuys;
+		public List<Guy> Guys;
 		public int TicksTillFinished;
 		public int DestinationFortID;
+		public Fort DestinationFort;
 
 		public override string ToString()
 		{
-			return $"Owner:{GroupOwner} Guys:{NumGuys} Dest:{DestinationFortID} TicksLeft{TicksTillFinished}";
+			return $"Owner:{GroupOwner} Guys:{Guys.Count} Dest:{DestinationFortID} TicksLeft{TicksTillFinished}";
 		}
 	}
 
 	public class Move
 	{
-		public Fort Source;
-		public Fort Destination;
+		public int SourceFortID;
+		public int DestinationFortID;
 		public int NumGuys;
+		public GuyType GuyType;
 	}
 
 	public class Point
