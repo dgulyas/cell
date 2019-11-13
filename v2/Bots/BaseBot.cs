@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,17 @@ namespace Cell.Bots
 			m_player = player;
 		}
 
-		public abstract List<Guy> SetStartingArmy();
+		public List<Guy> CreateAndValidateArmy()
+		{
+			var jsonArmy = SetStartingArmy();
+			var army = JsonConvert.DeserializeObject<List<Guy>>(jsonArmy);
+
+			// TODO: add cost and max number guys rules here
+
+			return army;
+		}
+
+		public abstract string SetStartingArmy();
 
 		public abstract List<Move> Do(string boardString);
 

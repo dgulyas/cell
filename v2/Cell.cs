@@ -314,12 +314,11 @@ namespace Cell
 		public string GroupOwner;
 		public List<Guy> Guys;
 		public int TicksTillFinished;
-		public int DestinationFortID;
 		public Fort DestinationFort;
 
 		public override string ToString()
 		{
-			return $"Owner:{GroupOwner} Guys:{Guys.Count} Dest:{DestinationFortID} TicksLeft{TicksTillFinished}";
+			return $"Owner:{GroupOwner} Guys:{Guys.Count} Dest:{DestinationFort.ID} TicksLeft:{TicksTillFinished}";
 		}
 	}
 

@@ -11,9 +11,9 @@ namespace Cell.Bots
 		}
 
 
-		public override List<Guy> SetStartingArmy()
+		public override string SetStartingArmy()
 		{
-			return new List<Guy>();
+			return "";
 		}
 	}
 }
