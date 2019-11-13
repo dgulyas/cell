@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Cell.Bots;
 using Newtonsoft.Json;
 
@@ -34,9 +32,22 @@ namespace Cell
 			var cellGame = new Cell();
 			var winner = cellGame.PlayGame(jsonForts, players, gameState);
 
-			Console.WriteLine(gameState);
+			Console.WriteLine(FormatGameRecord(gameState));
 			Console.WriteLine($"Winner: {winner}");
 			Console.ReadLine();
+		}
+
+		static string FormatGameRecord(StringBuilder gameState)
+		{
+			var turns = JsonConvert.DeserializeObject<BoardState[]>(gameState.ToString());
+
+			var sb = new StringBuilder();
+			foreach (var board in turns)
+			{
+				sb.AppendLine(board.ToString());
+			}
+
+			return sb.ToString();
 		}
 	}
 }
