@@ -8,6 +8,6 @@ namespace Cell
 {
 	public interface IBot
 	{
-		List<Tuple<int, int, int>> Do(string jsonBoard);
+		List<Move> Do(string jsonBoard);
 	}
 }

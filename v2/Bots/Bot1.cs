@@ -7,14 +7,14 @@ namespace Cell.Bots
 {
 	class Bot1 : BaseBot
 	{
-		public override List<Tuple<int, int, int>> Do(string boardString)
+		public override List<Move> Do(string boardString)
 		{
 			var board = JsonConvert.DeserializeObject<BoardState>(boardString);
 
 			var friendlyForts = GetFriendlyForts(m_player, board);
 			var enemyForts = GetEnemyForts(m_player, board);
 
-			var moves = new List<Tuple<int, int, int>>();
+			var moves = new List<Move>();
 
 			if (enemyForts.Count > 0)
 			{
@@ -22,7 +22,7 @@ namespace Cell.Bots
 				{
 					if (fort.NumDefendingGuys > 0)
 					{
-						var move = new Tuple<int, int, int>(fort.ID, enemyForts[0].ID, fort.NumDefendingGuys);
+						var move = new Move{source=fort, destination=enemyForts[0], numGuys=fort.NumDefendingGuys };
 						moves.Add(move);
 					}
 				}

@@ -94,9 +94,9 @@ namespace Cell
 			return JsonConvert.SerializeObject(bs);
 		}
 
-		private Dictionary<string, List<Tuple<int, int, int>>> GetMovesFromBots(string jsonBoardState)
+		private Dictionary<string, List<Move>> GetMovesFromBots(string jsonBoardState)
 		{
-			var botMoves = new Dictionary<string, List<Tuple<int, int, int>>>();
+			var botMoves = new Dictionary<string, List<Move>>();
 
 			//For each remaining player we ask that player's bot what moves it wants to make.
 			var remainingPlayers = GetPlayerList();
@@ -109,20 +109,20 @@ namespace Cell
 			return botMoves;
 		}
 
-		private void ExecuteMoves(Dictionary<string, List<Tuple<int, int, int>>> playerMoves)
+		private void ExecuteMoves(Dictionary<string, List<Move>> playerMoves)
 		{
 			foreach (var player in playerMoves.Keys)
 			{
 				foreach (var move in playerMoves[player])
 				{
-					var numGuysToMove = move.Item3;
+					var numGuysToMove = move.numGuys;
 					if (numGuysToMove < 1)
 					{
 						continue;
 					}
 
-					var sourceFort = GetFortByID(move.Item1);
-					var destFort = GetFortByID(move.Item2);
+					var sourceFort = move.source;
+					var destFort = move.destination;
 					if (sourceFort == null || destFort == null || sourceFort.FortOwner != player || sourceFort.NumDefendingGuys < numGuysToMove)
 					{
 						continue;
@@ -221,6 +221,13 @@ namespace Cell
 		public int NumGuys;
 		public int TicksTillFinished;
 		public int DestinationFortID;
+	}
+
+	public class Move
+	{
+		public Fort source;
+		public Fort destination;
+		public int numGuys;
 	}
 
 	public class Point
