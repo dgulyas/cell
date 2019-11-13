@@ -103,7 +103,7 @@ namespace Cell
 			//A player is still alive as long as it controls a fort or has a GuyGroup that
 			//hasn't arrived yet.
 			var ggControllers = TravelingGGs.Select(gg => gg.GroupOwner);
-			var fortControllers = Forts.Select(f => f.FortOwner).Where(fo => fo != null);
+			var fortControllers = Forts.Where(f => f.FortOwner != null && f.DefendingGuys.Count > 0).Select(f => f.FortOwner);
 			return ggControllers.Union(fortControllers).Distinct().ToList();
 		}
 
@@ -257,13 +257,18 @@ namespace Cell
 					destFort.DefendingGuys.RemoveAll(g => g.Health <= 0);
 				}
 
+				// draw
+				if (gg.Guys.Count == 0 && destFort.DefendingGuys.Count == 0)
+				{
+					// do nothing
+				}
 				// defender wins
-				if (gg.Guys.Count == 0)
+				else if (gg.Guys.Count == 0)
 				{
 					// do nothing
 				}
 				// attacker wins
-				if (destFort.DefendingGuys.Count == 0)
+				else
 				{
 					destFort.FortOwner = gg.GroupOwner;
 					destFort.DefendingGuys = gg.Guys;
