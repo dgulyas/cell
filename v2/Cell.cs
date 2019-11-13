@@ -115,14 +115,14 @@ namespace Cell
 			{
 				foreach (var move in playerMoves[player])
 				{
-					var numGuysToMove = move.numGuys;
+					var numGuysToMove = move.NumGuys;
 					if (numGuysToMove < 1)
 					{
 						continue;
 					}
 
-					var sourceFort = move.source;
-					var destFort = move.destination;
+					var sourceFort = move.Source;
+					var destFort = move.Destination;
 					if (sourceFort == null || destFort == null || sourceFort.FortOwner != player || sourceFort.NumDefendingGuys < numGuysToMove)
 					{
 						continue;
@@ -213,6 +213,8 @@ namespace Cell
 		public int BirthSpeed;
 		public int NumDefendingGuys;
 		public string FortOwner;
+		public int DefensiveBonus;
+		public GuyType BirthingType;
 	}
 
 	public class GuyGroup
@@ -225,9 +227,9 @@ namespace Cell
 
 	public class Move
 	{
-		public Fort source;
-		public Fort destination;
-		public int numGuys;
+		public Fort Source;
+		public Fort Destination;
+		public int NumGuys;
 	}
 
 	public class Point

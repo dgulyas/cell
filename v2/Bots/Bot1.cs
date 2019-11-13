@@ -7,6 +7,16 @@ namespace Cell.Bots
 {
 	class Bot1 : BaseBot
 	{
+		public override List<Guy> SetStartingArmy()
+		{
+			var army = new List<Guy>();
+			for (var i = 0; i < 10; i++)
+			{
+				army.Add(GuyFactory.CreateGuy(GuyType.AVERAGE));
+			}
+			return army;
+		}
+
 		public override List<Move> Do(string boardString)
 		{
 			var board = JsonConvert.DeserializeObject<BoardState>(boardString);
@@ -22,7 +32,7 @@ namespace Cell.Bots
 				{
 					if (fort.NumDefendingGuys > 0)
 					{
-						var move = new Move{source=fort, destination=enemyForts[0], numGuys=fort.NumDefendingGuys };
+						var move = new Move{Source=fort, Destination=enemyForts[0], NumGuys=fort.NumDefendingGuys };
 						moves.Add(move);
 					}
 				}
