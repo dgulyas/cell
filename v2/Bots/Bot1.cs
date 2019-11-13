@@ -28,9 +28,9 @@ namespace Cell.Bots
 			{
 				foreach (var fort in friendlyForts)
 				{
-					if (fort.NumDefendingGuys > 0)
+					if (fort.DefendingGuys.Count > 0)
 					{
-						var move = new Move{Source=fort, Destination=enemyForts[0], NumGuys=fort.NumDefendingGuys };
+						var move = new Move{SourceFortID=fort.ID, DestinationFortID=enemyForts[0].ID, NumGuys=fort.DefendingGuys.Count, GuyType=GuyType.AVERAGE};
 						moves.Add(move);
 					}
 				}
