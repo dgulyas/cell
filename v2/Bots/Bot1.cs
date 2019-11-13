@@ -22,7 +22,7 @@ namespace Cell.Bots
 				{
 					if (fort.NumDefendingGuys > 0)
 					{
-						var move = new Move{source=fort, destination=enemyForts[0], numGuys=fort.NumDefendingGuys };
+						var move = new Move{Source=fort, Destination=enemyForts[0], NumGuys=fort.NumDefendingGuys };
 						moves.Add(move);
 					}
 				}
