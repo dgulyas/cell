@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Cell.Bots
@@ -30,7 +31,20 @@ namespace Cell.Bots
 				{
 					if (fort.DefendingGuys.Count > 0)
 					{
-						var move = new Move{SourceFortID=fort.ID, DestinationFortID=enemyForts[0].ID, NumGuys=fort.DefendingGuys.Count, GuyType=GuyType.AVERAGE};
+						var numBeefy = fort.DefendingGuys.Where(g => g.Type == GuyType.BEEFY).Count();
+						var move = new Move { SourceFortID = fort.ID, DestinationFortID = enemyForts[0].ID, NumGuys = numBeefy, GuyType = GuyType.BEEFY };
+						moves.Add(move);
+
+						var numArmored = fort.DefendingGuys.Where(g => g.Type == GuyType.ARMORED).Count();
+						move = new Move { SourceFortID = fort.ID, DestinationFortID = enemyForts[0].ID, NumGuys = numArmored, GuyType = GuyType.ARMORED };
+						moves.Add(move);
+
+						var numAverage = fort.DefendingGuys.Where(g => g.Type == GuyType.AVERAGE).Count();
+						move = new Move { SourceFortID = fort.ID, DestinationFortID = enemyForts[0].ID, NumGuys = numAverage, GuyType = GuyType.AVERAGE };
+						moves.Add(move);
+
+						var numRunner = fort.DefendingGuys.Where(g => g.Type == GuyType.RUNNER).Count();
+						move = new Move { SourceFortID = fort.ID, DestinationFortID = enemyForts[0].ID, NumGuys = numRunner, GuyType = GuyType.RUNNER };
 						moves.Add(move);
 					}
 				}

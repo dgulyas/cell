@@ -13,7 +13,7 @@ namespace Cell.Bots
 
 		public override List<Guy> SetStartingArmy()
 		{
-			return new List<Guy>();
+			return new List<Guy> { GuyFactory.CreateGuy(GuyType.AVERAGE) };
 		}
 	}
 }
