@@ -22,8 +22,8 @@ namespace Cell
 
 			var forts = new List<Fort>
 			{
-				new Fort { BirthSpeed = 1, ID = 1, FortOwner = "p1", DefendingGuys = bot1.CreateAndValidateArmy(), Location = new Point { X = 1, Y = 1 } },
-				new Fort { BirthSpeed = 1, ID = 2, FortOwner = "p2", DefendingGuys = bot2.CreateAndValidateArmy(), Location = new Point { X = 8, Y = 8 } }
+				new Fort { BirthSpeed = 1, ID = 1, FortOwner = "p1", DefendingGuys = bot1.SetStartingArmy(), Location = new Point { X = 1, Y = 1 } },
+				new Fort { BirthSpeed = 1, ID = 2, FortOwner = "p2", DefendingGuys = bot2.SetStartingArmy(), Location = new Point { X = 8, Y = 8 } }
 			};
 
 			var jsonForts = JsonConvert.SerializeObject(forts);
