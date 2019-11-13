@@ -15,7 +15,7 @@ namespace Cell
 
 			var forts = new List<Fort>();
 			forts.Add(new Fort { BirthSpeed = 10, ID = 1, FortOwner = "p1", NumDefendingGuys = 10, Location = new Point { X = 1, Y = 1 } });
-			forts.Add(new Fort { BirthSpeed = 10, ID = 1, FortOwner = null, NumDefendingGuys = 10, Location = new Point { X = 1, Y = 8 } });
+			//forts.Add(new Fort { BirthSpeed = 10, ID = 1, FortOwner = null, NumDefendingGuys = 10, Location = new Point { X = 1, Y = 8 } });
 			forts.Add(new Fort { BirthSpeed = 0, ID = 2, FortOwner = "p2", NumDefendingGuys = 0, Location = new Point { X = 8, Y = 8 } });
 			var jsonForts = JsonConvert.SerializeObject(forts);
 
@@ -35,6 +35,7 @@ namespace Cell
 
 			Console.WriteLine(gameState);
 			Console.WriteLine($"Winner: {winner}");
+			Console.ReadLine();
 		}
 	}
 }
