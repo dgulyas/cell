@@ -23,6 +23,7 @@ namespace Cell
 
 			Forts = JsonConvert.DeserializeObject<List<Fort>>(jsonForts);
 			ValidateForts();
+			ValidateStartingArmies();
 			SetBotMapping(players);
 
 			var gameTied = false;
@@ -71,6 +72,14 @@ namespace Cell
 				}
 
 				fortIDs.Add(fort.ID);
+			}
+		}
+
+		private void ValidateStartingArmies()
+		{
+			foreach (var fort in Forts)
+			{
+				// TODO: add cost and max number guys rules here
 			}
 		}
 

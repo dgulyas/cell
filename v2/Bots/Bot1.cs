@@ -5,14 +5,14 @@ namespace Cell.Bots
 {
 	class Bot1 : BaseBot
 	{
-		public override string SetStartingArmy()
+		public override List<Guy> SetStartingArmy()
 		{
 			var army = new List<Guy>();
 			for (var i = 0; i < 10; i++)
 			{
 				army.Add(GuyFactory.CreateGuy(GuyType.AVERAGE));
 			}
-			return JsonConvert.SerializeObject<List<Guy>>(army);
+			return army;
 		}
 
 		public override List<Move> Do(string boardString)

@@ -16,17 +16,7 @@ namespace Cell.Bots
 			m_player = player;
 		}
 
-		public List<Guy> CreateAndValidateArmy()
-		{
-			var jsonArmy = SetStartingArmy();
-			var army = JsonConvert.DeserializeObject<List<Guy>>(jsonArmy);
-
-			// TODO: add cost and max number guys rules here
-
-			return army;
-		}
-
-		public abstract string SetStartingArmy();
+		public abstract List<Guy> SetStartingArmy();
 
 		public abstract List<Move> Do(string boardString);
 
