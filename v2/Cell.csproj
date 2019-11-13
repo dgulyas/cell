@@ -51,6 +51,7 @@
     <Compile Include="Bots\Bot1.cs" />
     <Compile Include="Bots\DoNothingBot.cs" />
     <Compile Include="Cell.cs" />
+    <Compile Include="GuyFactory.cs" />
     <Compile Include="IBot.cs" />
     <Compile Include="IGame.cs" />
     <Compile Include="Program.cs" />
