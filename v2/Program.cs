@@ -17,6 +17,9 @@ namespace Cell
 
 		static void Main(string[] args)
 		{
+			var t = new Tournament();
+			t.RunTournament();
+
 			string _filePath = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory)).FullName).FullName;
 
 			var bot1 = new ZergBot();

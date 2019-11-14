@@ -1,9 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Cell
 {
 	public class MapLibrary
 	{
+		public static int NumMaps = 5;
+
+		public static List<Fort> GetMap(int i)
+		{
+			switch (i)
+			{
+				case 1:
+					return Map1();
+				case 2:
+					return Map2();
+				case 3:
+					return Map3();
+				case 4:
+					return Map4();
+				case 5:
+					return Map5();
+				default:
+					throw new Exception("Bad map number");
+			}
+		}
+
 		//Diamond
 		public static List<Fort> Map1()
 		{
