@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Bots\BaseBot.cs" />
     <Compile Include="Bots\FortStealerBot.cs" />
+    <Compile Include="Bots\PatientBot.cs" />
     <Compile Include="Bots\ZergBot.cs" />
     <Compile Include="Bots\DoNothingBot.cs" />
     <Compile Include="Cell.cs" />
