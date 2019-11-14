@@ -118,5 +118,12 @@ namespace Cell.Bots
 			}
 			return closestFort;
 		}
+
+		public List<Fort> GetOrderedFortsByDistance(List<Fort> forts, Fort srcFort)
+		{
+			return forts.OrderBy(f => f,
+				Comparer<Fort>.Create(
+					(x, y) => GetDistanceBetween(srcFort.Location, x.Location).CompareTo(GetDistanceBetween(srcFort.Location, y.Location)))).ToList();
+		}
 	}
 }
