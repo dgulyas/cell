@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -21,13 +22,18 @@ namespace Display
 		//private List<Color> m_playerColors = new List<Color>{Colors.OrangeRed, Colors.DarkBlue, Colors.DarkOliveGreen};
 		//private Dictionary<string, Color> m_playerColorMapping = new Dictionary<string, Color>();
 
-		private BoardState currentBoard = new BoardState();
-		//private string _filePath = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory)).FullName).FullName;
+		public BoardState currentBoard = new BoardState();
+		private string _filePath = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory)).FullName).FullName;
+		public List<BoardState> boards = new List<BoardState>();
 		public MainWindow()
 		{
 			_filePath = Directory.GetParent(Directory.GetParent(_filePath).FullName).FullName;
-			InitializeComponent();
-			//string[] text = System.IO.File.ReadAllLines(_filePath += @"\Results\File1.txt") ;
+			DirectoryInfo di = new DirectoryInfo(_filePath + @"\v2\Results\");
+			string[] text = System.IO.File.ReadAllLines(Directory.GetFiles(di.FullName)[0]);
+			foreach (string t in text)
+			{
+				boards.Add(JsonConvert.DeserializeObject<BoardState>(t));
+			}
 			//var myLine = new Line();
 			//myLine.Stroke = Brushes.LightSteelBlue;
 			//myLine.X1 = 1;
@@ -37,19 +43,14 @@ namespace Display
 			//myLine.StrokeThickness = 2;
 			//Canvas.Children.Add(myLine);
 
+			//LoadTestState();
+			InitializeComponent();
 
-			LoadTestState();
-
-			DrawBoardState();
-
-			BoardChangedEvent += DrawBoardState;
 
 		}
 
 		public void DrawBoardState()
 		{
-			lock (currentBoard)
-			{
 
 				Canvas.Children.Clear();
 
@@ -62,7 +63,8 @@ namespace Display
 				{
 					DrawGuyGroup(gg);
 				}
-			}
+
+			
 
 		}
 
@@ -71,8 +73,8 @@ namespace Display
 			int size = 25;
 
 			var circle = new Ellipse();
-			circle.SetValue(Canvas.TopProperty, (double)fort.Location.Y);
-			circle.SetValue(Canvas.LeftProperty, (double)fort.Location.X);
+			circle.SetValue(Canvas.TopProperty, (double)fort.Location.Y * 10);
+			circle.SetValue(Canvas.LeftProperty, (double)fort.Location.X * 10);
 			circle.Height = size;
 			circle.Width = circle.Height;
 			circle.StrokeThickness = 2;
@@ -103,8 +105,6 @@ namespace Display
 		public delegate void BoardChangedEventHandler();
 
 		public event BoardChangedEventHandler BoardChangedEvent;
-
-
 		public void LoadTestState()
 		{
 			lock (currentBoard)
