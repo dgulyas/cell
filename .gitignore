@@ -1,30 +1,5 @@
-# Build folders
-obj/
+v2/Results/*
 bin/
-Release/
-Debug/
-
-# User specific VS/R# files/folders
-_ReSharper.Advatar/
-*.user
-*.suo
-*.sdf
-*.opensdf
-*.ncb
-*.docstates
-version.rc
+obj/
 .vs/
-
-#Unit Test files/folders
-TestResult.xml
-FxCopOutput.xml
-NunitOutput.xml
-NunitOutputAdmin.xml
-NunitOutputCalculator.xml
-NunitOutputGui.xml
-resultsUnitTests.xml
-resultsUnitTestsAdmin.xml
-*.VisualState.xml
-
-#package binaries
 packages/
