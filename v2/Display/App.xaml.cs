@@ -20,16 +20,19 @@ namespace Display
 		{
 			MainWindow wnd = new MainWindow();
 			wnd.Show();
+
 			foreach (BoardState b in wnd.boards)
 			{
 				this.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
 				{
 					wnd.currentBoard = b;
 					wnd.DrawBoardState();
+					if (b == wnd.boards.Last()) {
+						wnd.DrawWinner();
+					}
 					Task.Delay(800).Wait();
 				}));
 			}
-
 		}
 	}
 }
