@@ -10,10 +10,10 @@ namespace Cell
 {
 	class Program
 	{
-		private const string P1 = "p1";
-		private const string P2 = "p2";
-		private const string P3 = "p3";
-		private const string P4 = "p4";
+		private const string P1 = "zerg";
+		private const string P2 = "stealer";
+		private const string P3 = "patient";
+		private const string P4 = "nothing";
 
 		static void Main(string[] args)
 		{
@@ -67,7 +67,8 @@ namespace Cell
 					sw.WriteLine((JsonConvert.SerializeObject(board)));
 				}
 			}
-			
+
+			Console.WriteLine($"Turns: {turns.Length - 1}");
 			Console.ReadLine();
 		}
 

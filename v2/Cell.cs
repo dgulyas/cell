@@ -82,7 +82,7 @@ namespace Cell
 		private void ValidateStartingArmies()
 		{
 			// cost is maximum between health, attach, and speed
-			int costLimit = 35;
+			int costLimit = 20;
 			int curCost = 0;
 			
 			foreach (var fort in Forts)

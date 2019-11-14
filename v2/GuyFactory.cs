@@ -33,7 +33,7 @@ namespace Cell
 					{
 						Strength = 1,
 						Health = 1,
-						Speed = 2,
+						Speed = 1,
 						Type = guyType
 					};
 				case GuyType.BEEFY:
@@ -57,7 +57,7 @@ namespace Cell
 					{
 						Strength = 1,
 						Health = 1,
-						Speed = 3,
+						Speed = 2,
 						Type = guyType
 					};
 			}
