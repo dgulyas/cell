@@ -17,10 +17,10 @@ namespace Cell
 		{
 			string _filePath = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory)).FullName).FullName;
 
-			var bot1 = new Bot1();
+			var bot1 = new ZergBot();
 			bot1.SetPlayer(P1);
 
-			var bot2 = new Bot2();
+			var bot2 = new FortStealerBot();
 			bot2.SetPlayer(P2);
 
 			var forts = new List<Fort>

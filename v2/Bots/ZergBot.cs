@@ -5,16 +5,16 @@ using Newtonsoft.Json;
 namespace Cell.Bots
 {
 	/// <summary>
-	/// Waits in their fort until a fort is empty then steals it as quickly as it can
+	/// As soon as a friendly base has a guy it is sent off to the closest enemy fort.
 	/// </summary>
-	class FortStealerBot : BaseBot
+	class ZergBot : BaseBot
 	{
 		public override List<Guy> SetStartingArmy()
 		{
 			var army = new List<Guy>();
 			for (var i = 0; i < 10; i++)
 			{
-				army.Add(GuyFactory.CreateGuy(GuyType.RUNNER));
+				army.Add(GuyFactory.CreateGuy(GuyType.AVERAGE));
 			}
 			return army;
 		}
@@ -29,15 +29,13 @@ namespace Cell.Bots
 
 			var moves = new List<Move>();
 
-			// find the closest friendly fort to the closest empty forts
-			// empty means no owner or an owner but no guys and no birthspeeds
-			var emptyForts = neutralForts.Concat(enemyForts.Where(f => f.DefendingGuys.Count() < 1 && f.BirthSpeed < 1).ToList()).ToList();
-			if (emptyForts.Count > 0)
+			foreach (var fort in friendlyForts)
 			{
-				foreach (var fort in friendlyForts)
+				// move to closest enemy fort
+				if (fort.DefendingGuys.Count > 0)
 				{
-					var destFort = GetClosestFort(emptyForts, fort);
-					moves.AddRange(MoveAll(fort, destFort));
+					var targetFort = GetClosestFort(enemyForts, fort);
+					moves.AddRange(MoveAll(fort, targetFort));
 				}
 			}
 
