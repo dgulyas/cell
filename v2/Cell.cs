@@ -48,6 +48,10 @@ namespace Cell
 				winner = GetTheWinner();
 			}
 
+			Tick();  // get the final state of the board
+			var finalJsonBoardState = MakeJsonBoardState();
+			turnStates.Add(JsonConvert.DeserializeObject<BoardState>(finalJsonBoardState));
+
 			gameState.Append(JsonConvert.SerializeObject(turnStates));
 
 			return gameTied ? null : winner;
