@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Display
 {
@@ -19,18 +20,16 @@ namespace Display
 		{
 			MainWindow wnd = new MainWindow();
 			wnd.Show();
-			Task.Run(() =>
+			foreach (BoardState b in wnd.boards)
 			{
-				foreach (BoardState b in wnd.boards)
+				this.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
 				{
-					this.Dispatcher.Invoke((Action)(async () =>
-					{
-						wnd.currentBoard = b;
-						wnd.DrawBoardState();
-						await Task.Delay(1000);
-					}));
-				}
-			});
+					wnd.currentBoard = b;
+					wnd.DrawBoardState();
+					Task.Delay(300).Wait();
+				}));
+			}
+
 		}
 	}
 }

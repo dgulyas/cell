@@ -22,7 +22,11 @@ namespace Cell
 			var bot1 = new ZergBot();
 			bot1.SetPlayer(P1);
 
+
+			var bot2 = new Bot1();
+
 			var bot2 = new FortStealerBot();
+
 			bot2.SetPlayer(P2);
 
 			var bot3 = new PatientBot();
@@ -54,7 +58,7 @@ namespace Cell
 			var cellGame = new Cell();
 			var winner = cellGame.PlayGame(jsonForts, players, gameState);
 
-			Console.WriteLine(FormatGameRecord(gameState));
+			//Console.WriteLine(FormatGameRecord(gameState));
 			Console.WriteLine($"Winner: {winner ?? "tie"}");
 
 			string resultsPath = _filePath + Path.Combine(@"\Results\", DateTime.UtcNow.ToFileTime().ToString()) + ".txt";
