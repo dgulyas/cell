@@ -13,30 +13,33 @@ namespace Cell
 		static void Main(string[] args)
 		{
 			string _filePath = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory)).FullName).FullName;
-			var forts = new List<Fort>
-			{
-				new Fort { BirthSpeed = 10, ID = 1, FortOwner = "p1", NumDefendingGuys = 10, Location = new Point { X = 1, Y = 1 } },
-				new Fort { BirthSpeed = 0, ID = 2, FortOwner = "p2", NumDefendingGuys = 0, Location = new Point { X = 8, Y = 8 } }
-			};
 
-			var jsonForts = JsonConvert.SerializeObject(forts);
-
-			var players = new Dictionary<string, IBot>();
 			var bot1 = new Bot1();
 			bot1.SetPlayer("p1");
 
 			var bot2 = new Bot1();
 			bot2.SetPlayer("p2");
 
-			players.Add("p1", bot1);
-			players.Add("p2", bot2);
+			var forts = new List<Fort>
+			{
+				new Fort { BirthSpeed = 1, ID = 1, FortOwner = "p1", DefendingGuys = bot1.SetStartingArmy(), Location = new Point { X = 1, Y = 1 } },
+				new Fort { BirthSpeed = 1, ID = 2, FortOwner = "p2", DefendingGuys = bot2.SetStartingArmy(), Location = new Point { X = 8, Y = 8 } }
+			};
+
+			var jsonForts = JsonConvert.SerializeObject(forts);
+
+			var players = new Dictionary<string, IBot>
+			{
+				{ "p1", bot1 },
+				{ "p2", bot2 }
+			};
 
 			var gameState = new StringBuilder();
 			var cellGame = new Cell();
 			var winner = cellGame.PlayGame(jsonForts, players, gameState);
 
 			Console.WriteLine(FormatGameRecord(gameState));
-			Console.WriteLine($"Winner: {winner}");
+			Console.WriteLine($"Winner: {winner ?? "tie"}");
 
 			string resultsPath = _filePath + Path.Combine(@"\Results\", DateTime.UtcNow.ToFileTime().ToString()) + ".txt";
 
@@ -48,6 +51,7 @@ namespace Cell
 					sw.WriteLine((JsonConvert.SerializeObject(board)));
 				}
 			}
+			
 			Console.ReadLine();
 		}
 

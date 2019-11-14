@@ -32,7 +32,7 @@ namespace Cell
 					return new Guy
 					{
 						Strength = 1,
-						Health = 2,
+						Health = 1,
 						Speed = 2,
 						Type = guyType
 					};
