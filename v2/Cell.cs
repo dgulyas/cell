@@ -84,7 +84,7 @@ namespace Cell
 			// cost is maximum between health, attach, and speed
 			int costLimit = 20;
 			int curCost = 0;
-			
+
 			foreach (var fort in Forts)
 			{
 				foreach(var guy in fort.DefendingGuys)
@@ -99,7 +99,7 @@ namespace Cell
 
 				curCost = 0;
 			}
-			
+
 		}
 
 		//This creates a 2 way mapping between player names and the bots.
@@ -203,9 +203,12 @@ namespace Cell
 		{
 			foreach (var fort in Forts)
 			{
-				for (var i = 0; i < fort.BirthSpeed; i++)
+				if (fort.FortOwner != null)
 				{
-					fort.DefendingGuys.Add(GuyFactory.CreateGuy(fort.BirthingType));
+					for (var i = 0; i < fort.BirthSpeed; i++)
+					{
+						fort.DefendingGuys.Add(GuyFactory.CreateGuy(fort.BirthingType));
+					}
 				}
 			}
 
