@@ -57,20 +57,19 @@ namespace Display
 		public void DrawBoardState()
 		{
 
-				Canvas.Children.Clear();
+			Canvas.Children.Clear();
 
-				foreach (var fort in currentBoard.Forts)
-				{
-					DrawFort(fort);
-				}
+			foreach (var fort in currentBoard.Forts)
+			{
+				DrawFort(fort);
+			}
 
-				foreach (var gg in currentBoard.GuyGroups)
-				{
-					DrawGuyGroup(gg);
-				}
+			foreach (var gg in currentBoard.GuyGroups)
+			{
+				DrawGuyGroup(gg);
+			}
 
-			
-
+			DrawText(5, 5, $"Turn: {currentBoard.TurnNumber}", Colors.Black, FontWeights.Bold);
 		}
 
 		public void DrawFort(Fort fort)
@@ -129,11 +128,14 @@ namespace Display
 			return System.Math.Sqrt(dX * dX + dY * dY);
 		}
 
-		private void DrawText(double x, double y, string text, Color color)
+		private void DrawText(double x, double y, string text, Color color, FontWeight? weight = null)
 		{
-			var textBlock = new TextBlock();
-			textBlock.Text = text;
-			textBlock.Foreground = new SolidColorBrush(color);
+			var textBlock = new TextBlock
+			{
+				Text = text,
+				Foreground = new SolidColorBrush(color),
+				FontWeight = weight ?? FontWeights.Normal
+			};
 			Canvas.SetLeft(textBlock, x+5);
 			Canvas.SetTop(textBlock, y);
 			Canvas.Children.Add(textBlock);
@@ -166,5 +168,21 @@ namespace Display
 			}
 		}
 
+		public void DrawWinner()
+		{
+			// get winner
+			var ggControllers = currentBoard.GuyGroups.Select(gg => gg.GroupOwner);
+			var fortControllers = currentBoard.Forts.Where(f => f.FortOwner != null && f.DefendingGuys.Count > 0).Select(f => f.FortOwner);
+			var alivePlayers = ggControllers.Union(fortControllers).Distinct().ToList();
+
+			string text = "DRAW!";
+			if (alivePlayers.Count == 1)
+			{
+				// winner!
+				text = $"Winner: {alivePlayers[0]}";
+			}
+
+			DrawText(this.Width - 125, 5, text, Colors.Black, FontWeights.UltraBold);
+		}
 	}
 }
