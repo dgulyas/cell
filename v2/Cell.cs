@@ -158,7 +158,7 @@ namespace Cell
 					}
 
 					var distanceBetweenForts = GetDistanceBetween(sourceFort.Location, destFort.Location);
-					var gg = new GuyGroup{DestinationFort = destFort, GroupOwner = player, Guys = toMove, TicksTillFinished = (int)distanceBetweenForts / toMove[0].Speed};
+					var gg = new GuyGroup{SourceFort = sourceFort, DestinationFort = destFort, GroupOwner = player, Guys = toMove, TicksTillFinished = (int)distanceBetweenForts / toMove[0].Speed};
 					TravelingGGs.Add(gg);
 				}
 			}
@@ -320,7 +320,7 @@ namespace Cell
 		{
 			var guysByType = DefendingGuys.GroupBy(g => g.Type).Select(g => new {Type = g.Key, Count = g.Count()}).OrderBy(g => g.Type);
 			var guysString = string.Join(",", guysByType.Select(g => string.Format("{0}:{1}", g.Type, g.Count)));
-			return $"ID:{ID} BS:{BirthSpeed} Loc:{Location} Owner:{FortOwner} Guys:{DefendingGuys.Count}-{guysString}";
+			return $"ID:{ID} BS:{BirthSpeed} Loc:{Location} Owner:{FortOwner ?? "  "} Guys:{DefendingGuys.Count}-{guysString}";
 		}
 	}
 
@@ -329,11 +329,12 @@ namespace Cell
 		public string GroupOwner;
 		public List<Guy> Guys;
 		public int TicksTillFinished;
+		public Fort SourceFort;
 		public Fort DestinationFort;
 
 		public override string ToString()
 		{
-			return $"Owner:{GroupOwner} Guys:{Guys.Count} Dest:{DestinationFort.ID} Type:{(Guys.Count > 0 ? Guys[0].Type: GuyType.AVERAGE)} Speed:{(Guys.Count > 0 ? Guys[0].Speed : 0)} TicksLeft:{TicksTillFinished}";
+			return $"Owner:{GroupOwner} Guys:{Guys.Count} Src:{SourceFort.ID} Dest:{DestinationFort.ID} Type:{(Guys.Count > 0 ? Guys[0].Type: GuyType.AVERAGE)} Speed:{(Guys.Count > 0 ? Guys[0].Speed : 0)} TicksLeft:{TicksTillFinished}";
 		}
 	}
 
