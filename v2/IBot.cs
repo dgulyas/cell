@@ -9,5 +9,6 @@ namespace Cell
 	public interface IBot
 	{
 		List<Move> Do(string jsonBoard);
+		void SetPlayer(string player);
 	}
 }

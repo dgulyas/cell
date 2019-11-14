@@ -52,7 +52,7 @@ namespace Cell
 			var finalJsonBoardState = MakeJsonBoardState();
 			turnStates.Add(JsonConvert.DeserializeObject<BoardState>(finalJsonBoardState));
 
-			gameState.Append(JsonConvert.SerializeObject(turnStates));
+			//gameState.Append(JsonConvert.SerializeObject(turnStates));
 
 			return gameTied ? null : winner;
 		}
@@ -140,8 +140,12 @@ namespace Cell
 			var remainingPlayers = GetPlayerList();
 			foreach (var player in remainingPlayers)
 			{
-				var moves = m_playerNameToBot[player].Do(jsonBoardState);
-				botMoves.Add(player, moves);
+				try
+				{
+					var moves = m_playerNameToBot[player].Do(jsonBoardState);
+					botMoves.Add(player, moves);
+				}
+				catch (Exception) { }
 			}
 
 			return botMoves;
