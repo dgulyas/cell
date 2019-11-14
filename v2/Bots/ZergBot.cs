@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace Cell.Bots
 {
 	/// <summary>
-	/// As soon as a friendly base has a guy it is sent off to the closest enemy fort.
+	/// As soon as a friendly base has a guy it is sent off to enemy forts.
 	/// </summary>
 	class ZergBot : BaseBot
 	{
@@ -34,7 +34,7 @@ namespace Cell.Bots
 				// move to closest enemy fort
 				if (fort.DefendingGuys.Count > 0)
 				{
-					var targetFort = GetClosestFort(enemyForts, fort);
+					var targetFort = enemyForts[board.TurnNumber % enemyForts.Count];
 					moves.AddRange(MoveAll(fort, targetFort));
 				}
 			}
