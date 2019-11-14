@@ -37,8 +37,17 @@ namespace Cell
 
 			Console.WriteLine(FormatGameRecord(gameState));
 			Console.WriteLine($"Winner: {winner}");
-			var test = _filePath + Path.Combine(@"\Results\", DateTime.UtcNow.ToFileTime().ToString()) + ".txt";
-			System.IO.File.WriteAllText(test, gameState.ToString());
+
+			string resultsPath = _filePath + Path.Combine(@"\Results\", DateTime.UtcNow.ToFileTime().ToString()) + ".txt";
+
+			var turns = JsonConvert.DeserializeObject<BoardState[]>(gameState.ToString());
+			using(var sw = new StreamWriter(resultsPath))
+			{
+				foreach(var board in turns)
+				{
+					sw.WriteLine((JsonConvert.SerializeObject(board)));
+				}
+			}
 			Console.ReadLine();
 		}
 
