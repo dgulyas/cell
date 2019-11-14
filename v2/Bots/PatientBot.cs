@@ -12,7 +12,7 @@ namespace Cell.Bots
 		public override List<Guy> SetStartingArmy()
 		{
 			var army = new List<Guy>();
-			for (var i = 0; i < 11; i++)
+			for (var i = 0; i < 10; i++)
 			{
 				army.Add(GuyFactory.CreateGuy(GuyType.ARMORED));
 			}
