@@ -20,16 +20,16 @@ namespace Cell
 			var bot1 = new Bot1();
 			bot1.SetPlayer(P1);
 
-			var bot2 = new Bot2();
+			var bot2 = new Bot1();
 			bot2.SetPlayer(P2);
 
 			var forts = new List<Fort>
 			{
-				new Fort { BirthSpeed = 1, BirthingType=GuyType.AVERAGE, ID = 1, FortOwner = P1, DefendingGuys = bot1.SetStartingArmy(), Location = new Point { X = 1, Y = 1 } },
-				new Fort { BirthSpeed = 1, BirthingType=GuyType.AVERAGE, ID = 2, FortOwner = P2, DefendingGuys = bot2.SetStartingArmy(), Location = new Point { X = 8, Y = 8 } },
-				new Fort { BirthSpeed = 1, BirthingType=GuyType.ARMORED, ID = 3, FortOwner = null, DefendingGuys = new List<Guy>(), Location = new Point { X = 8, Y = 1 } },
-				new Fort { BirthSpeed = 1, BirthingType=GuyType.BEEFY, ID = 4, FortOwner = null, DefendingGuys = new List<Guy>(), Location = new Point { X = 1, Y = 8 } },
-				new Fort { BirthSpeed = 1, BirthingType=GuyType.RUNNER, ID = 5, FortOwner = null, DefendingGuys = new List<Guy>(), Location = new Point { X = 4, Y = 4 } }
+				new Fort { BirthSpeed = 0, BirthingType=GuyType.AVERAGE, ID = 1, FortOwner = P1, DefendingGuys = bot1.SetStartingArmy(), Location = new Point { X = 1, Y = 1 } },
+				new Fort { BirthSpeed = 0, BirthingType=GuyType.AVERAGE, ID = 2, FortOwner = P2, DefendingGuys = bot2.SetStartingArmy(), Location = new Point { X = 8, Y = 8 } },
+				new Fort { BirthSpeed = 0, BirthingType=GuyType.ARMORED, ID = 3, FortOwner = null, DefendingGuys = new List<Guy>(), Location = new Point { X = 8, Y = 1 } },
+				new Fort { BirthSpeed = 0, BirthingType=GuyType.BEEFY, ID = 4, FortOwner = null, DefendingGuys = new List<Guy>(), Location = new Point { X = 1, Y = 8 } },
+				new Fort { BirthSpeed = 0, BirthingType=GuyType.RUNNER, ID = 5, FortOwner = null, DefendingGuys = new List<Guy>(), Location = new Point { X = 4, Y = 4 } }
 			};
 
 			var jsonForts = JsonConvert.SerializeObject(forts);
@@ -44,7 +44,7 @@ namespace Cell
 			var cellGame = new Cell();
 			var winner = cellGame.PlayGame(jsonForts, players, gameState);
 
-			Console.WriteLine(FormatGameRecord(gameState));
+			//Console.WriteLine(FormatGameRecord(gameState));
 			Console.WriteLine($"Winner: {winner ?? "tie"}");
 
 			string resultsPath = _filePath + Path.Combine(@"\Results\", DateTime.UtcNow.ToFileTime().ToString()) + ".txt";

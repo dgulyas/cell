@@ -14,7 +14,7 @@ namespace Cell
 		private List<GuyGroup> TravelingGGs = new List<GuyGroup>();
 
 		private int m_turnNumber = 0;
-		private const int MAX_TURNS = 5000;
+		private const int MAX_TURNS = 500;
 
 		//returns the name of the winning bot. Null if it's a tie.
 		public string PlayGame(string jsonForts, Dictionary<string, IBot> players, StringBuilder gameState)

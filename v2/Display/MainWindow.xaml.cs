@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Threading;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -19,9 +17,9 @@ namespace Display
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		//private List<Color> m_playerColors = new List<Color>{Colors.OrangeRed, Colors.DarkBlue, Colors.DarkOliveGreen};
-		//private Dictionary<string, Color> m_playerColorMapping = new Dictionary<string, Color>();
-
+		private List<Brush> colorOptions = new List<Brush> { Brushes.DarkRed, Brushes.Blue, Brushes.Green, Brushes.Orange, Brushes.Purple, Brushes.Brown };
+		private Dictionary<string, Brush> m_playerColorMapping = new Dictionary<string, Brush>();
+		private int SCALINGFACTOR = 100;
 		public BoardState currentBoard = new BoardState();
 		private string _filePath = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory)).FullName).FullName;
 		public List<BoardState> boards = new List<BoardState>();
@@ -34,6 +32,11 @@ namespace Display
 			{
 				boards.Add(JsonConvert.DeserializeObject<BoardState>(t));
 			}
+			foreach(var player in boards[0].Forts.Select(x => x.FortOwner).Distinct().Where(x => x != null))
+			{
+
+				m_playerColorMapping.Add(player, PickBrush());
+			}
 			//var myLine = new Line();
 			//myLine.Stroke = Brushes.LightSteelBlue;
 			//myLine.X1 = 1;
@@ -45,6 +48,8 @@ namespace Display
 
 			//LoadTestState();
 			InitializeComponent();
+			this.Height = (boards[0].Forts.Max(x => x.Location.Y)) * SCALINGFACTOR + 100;
+			this.Width = (boards[0].Forts.Max(x => x.Location.X)) * SCALINGFACTOR + 100;
 
 
 		}
@@ -73,23 +78,50 @@ namespace Display
 			int size = 25;
 
 			var circle = new Ellipse();
-			circle.SetValue(Canvas.TopProperty, (double)fort.Location.Y * 10);
-			circle.SetValue(Canvas.LeftProperty, (double)fort.Location.X * 10);
+			circle.SetValue(Canvas.TopProperty, (double)(fort.Location.Y * SCALINGFACTOR));
+			circle.SetValue(Canvas.LeftProperty, (double)(fort.Location.X * SCALINGFACTOR));
 			circle.Height = size;
 			circle.Width = circle.Height;
 			circle.StrokeThickness = 2;
-			circle.Stroke = Brushes.Black;
-			//circle.Stroke = m_playerColorMapping[fort.FortOwner.Name];
+			if(fort.FortOwner == null)
+			{
+				circle.Stroke = Brushes.Black;
+			}
+			else
+			{
+				circle.Stroke = m_playerColorMapping[fort.FortOwner];
+			}
 			Canvas.Children.Add(circle);
 
-			DrawText(fort.Location.X + size/4 - 4, fort.Location.Y + size/4 -1, fort.BirthSpeed.ToString(), Colors.Black);
-			DrawText(fort.Location.X -3, fort.Location.Y - size / 2 - 2, fort.ID + ":" + fort.FortOwner, Colors.Black);
-			DrawText(fort.Location.X + size / 4 - 4, fort.Location.Y + size, fort.NumDefendingGuys.ToString(), Colors.Black);
+			DrawText((fort.Location.X) * SCALINGFACTOR, (fort.Location.Y) * SCALINGFACTOR, fort.BirthSpeed.ToString(), Colors.Black);
+			DrawText((fort.Location.X) * SCALINGFACTOR , (fort.Location.Y) * SCALINGFACTOR - 15, fort.ID + ":" + fort.FortOwner, Colors.Black);
+			DrawText((fort.Location.X) * SCALINGFACTOR, (fort.Location.Y) * SCALINGFACTOR - 30, fort.DefendingGuys.Count.ToString(), Colors.Black);
 		}
 
 		public void DrawGuyGroup(GuyGroup gg)
 		{
+			int size = 10 * (int)(gg.Guys.Count / 10);
+			var square = new Rectangle();
+			int numTotalTicks = (int)distance(gg.SourceFort.Location, gg.DestinationFort.Location) / gg.Guys[0].Speed;
+			double tickRatio = (numTotalTicks - gg.TicksTillFinished) / (double)numTotalTicks;
+			double xDistanceMoved = (int)((gg.DestinationFort.Location.X - gg.SourceFort.Location.X) * tickRatio);
+			double xLocation = gg.SourceFort.Location.X + xDistanceMoved;
+			double yDistanceMoved = (int)((gg.DestinationFort.Location.Y - gg.SourceFort.Location.Y) * tickRatio);
+			double yLocation = gg.SourceFort.Location.Y + yDistanceMoved;
+			square.SetValue(Canvas.TopProperty, yLocation * SCALINGFACTOR);
+			square.SetValue(Canvas.LeftProperty, xLocation * SCALINGFACTOR);
+			square.Height = size;
+			square.Width = square.Height;
+			square.StrokeThickness = 3;
+			square.Stroke = m_playerColorMapping[gg.GroupOwner];
+			Canvas.Children.Add(square);
+		}
 
+		private double distance(Cell.Point l1, Cell.Point l2)
+		{
+			double dX = l1.X - l2.X;
+			double dY = l1.Y - l2.Y;
+			return System.Math.Sqrt(dX * dX + dY * dY);
 		}
 
 		private void DrawText(double x, double y, string text, Color color)
@@ -102,19 +134,30 @@ namespace Display
 			Canvas.Children.Add(textBlock);
 		}
 
-		public delegate void BoardChangedEventHandler();
+		private Brush PickBrush()
+		{
+			Brush result = Brushes.Transparent;
+			
+			Random rnd = new Random();
 
-		public event BoardChangedEventHandler BoardChangedEvent;
+
+			int random = rnd.Next(colorOptions.Count);
+			result = colorOptions[random];
+
+			colorOptions.RemoveAt(random);
+
+			return result;
+		}
 		public void LoadTestState()
 		{
 			lock (currentBoard)
 			{
 				currentBoard.Forts = new List<Fort>();
 				currentBoard.GuyGroups = new List<GuyGroup>();
-				currentBoard.Forts.Add(new Fort { Location = new Cell.Point { X = 40, Y = 100 }, NumDefendingGuys = 67, FortOwner = "P1", BirthSpeed = 5 });
-				currentBoard.Forts.Add(new Fort { Location = new Cell.Point { X = 100, Y = 40 }, NumDefendingGuys = 77, FortOwner = "P2", BirthSpeed = 10 });
-				currentBoard.Forts.Add(new Fort { Location = new Cell.Point { X = 40, Y = 40 }, NumDefendingGuys = 87, FortOwner = null, BirthSpeed = 5 });
-				currentBoard.Forts.Add(new Fort { Location = new Cell.Point { X = 100, Y = 100 }, NumDefendingGuys = 97, FortOwner = null , BirthSpeed = 25 });
+				currentBoard.Forts.Add(new Fort { Location = new Cell.Point { X = 40, Y = 100 }, DefendingGuys = new List<Guy>(), FortOwner = "P1", BirthSpeed = 5 });
+				currentBoard.Forts.Add(new Fort { Location = new Cell.Point { X = 100, Y = 40 }, DefendingGuys = new List<Guy>(), FortOwner = "P2", BirthSpeed = 10 });
+				currentBoard.Forts.Add(new Fort { Location = new Cell.Point { X = 40, Y = 40 }, DefendingGuys = new List<Guy>(), FortOwner = null, BirthSpeed = 5 });
+				currentBoard.Forts.Add(new Fort { Location = new Cell.Point { X = 100, Y = 100 }, DefendingGuys = new List<Guy>(), FortOwner = null , BirthSpeed = 25 });
 			}
 		}
 
