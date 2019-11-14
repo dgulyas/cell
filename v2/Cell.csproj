@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bots\BaseBot.cs" />
+    <Compile Include="Bots\FortStealerBot.cs" />
     <Compile Include="Bots\Bot1.cs" />
     <Compile Include="Bots\DoNothingBot.cs" />
     <Compile Include="Cell.cs" />
