@@ -20,14 +20,14 @@ namespace Cell.Bots
 
 		public abstract List<Move> Do(string boardString);
 
-		public static List<Fort> GetFriendlyForts(string player, BoardState board)
+		public List<Fort> GetFriendlyForts(BoardState board)
 		{
-			return board.Forts.Where(f => f.FortOwner == player).ToList();
+			return board.Forts.Where(f => f.FortOwner == m_player).ToList();
 		}
 
-		public static List<Fort> GetEnemyForts(string player, BoardState board)
+		public List<Fort> GetEnemyForts(BoardState board)
 		{
-			return board.Forts.Where(f => f.FortOwner != null && f.FortOwner != player).ToList();
+			return board.Forts.Where(f => f.FortOwner != null && f.FortOwner != m_player).ToList();
 		}
 
 		public static List<Fort> GetNeutralForts(BoardState board)
@@ -101,6 +101,22 @@ namespace Cell.Bots
 		public static Move MoveRunner(Fort srcFort, Fort destFort, int numGuys)
 		{
 			return new Move { SourceFortID = srcFort.ID, DestinationFortID = destFort.ID, NumGuys = numGuys, GuyType = GuyType.RUNNER };
+		}
+
+		public Fort GetClosestFort(List<Fort> forts, Fort srcFort)
+		{
+			Fort closestFort = null;
+			double shortestDistance = double.MaxValue;
+			foreach (var fort in forts)
+			{
+				var distance = GetDistanceBetween(srcFort.Location, fort.Location);
+				if (distance < shortestDistance)
+				{
+					shortestDistance = distance;
+					closestFort = fort;
+				}
+			}
+			return closestFort;
 		}
 	}
 }
