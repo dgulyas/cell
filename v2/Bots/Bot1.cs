@@ -31,19 +31,19 @@ namespace Cell.Bots
 				{
 					if (fort.DefendingGuys.Count > 0)
 					{
-						var numBeefy = fort.DefendingGuys.Where(g => g.Type == GuyType.BEEFY).Count();
+						var numBeefy = FilterGuys(fort.DefendingGuys, GuyType.BEEFY).Count();
 						var move = new Move { SourceFortID = fort.ID, DestinationFortID = enemyForts[0].ID, NumGuys = numBeefy, GuyType = GuyType.BEEFY };
 						moves.Add(move);
 
-						var numArmored = fort.DefendingGuys.Where(g => g.Type == GuyType.ARMORED).Count();
+						var numArmored = FilterGuys(fort.DefendingGuys, GuyType.ARMORED).Count();
 						move = new Move { SourceFortID = fort.ID, DestinationFortID = enemyForts[0].ID, NumGuys = numArmored, GuyType = GuyType.ARMORED };
 						moves.Add(move);
 
-						var numAverage = fort.DefendingGuys.Where(g => g.Type == GuyType.AVERAGE).Count();
+						var numAverage = FilterGuys(fort.DefendingGuys, GuyType.AVERAGE).Count();
 						move = new Move { SourceFortID = fort.ID, DestinationFortID = enemyForts[0].ID, NumGuys = numAverage, GuyType = GuyType.AVERAGE };
 						moves.Add(move);
 
-						var numRunner = fort.DefendingGuys.Where(g => g.Type == GuyType.RUNNER).Count();
+						var numRunner = FilterGuys(fort.DefendingGuys, GuyType.RUNNER).Count();
 						move = new Move { SourceFortID = fort.ID, DestinationFortID = enemyForts[0].ID, NumGuys = numRunner, GuyType = GuyType.RUNNER };
 						moves.Add(move);
 					}
