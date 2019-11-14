@@ -23,12 +23,11 @@ namespace Display
 			{
 				foreach (BoardState b in wnd.boards)
 				{
-					wnd.currentBoard = b;
-					this.Dispatcher.Invoke((Action)(() =>
+					this.Dispatcher.Invoke((Action)(async () =>
 					{
-						wnd.InvalidateVisual();
+						wnd.currentBoard = b;
 						wnd.DrawBoardState();
-						Thread.Sleep(200);
+						await Task.Delay(1000);
 					}));
 				}
 			});
