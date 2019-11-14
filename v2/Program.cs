@@ -13,7 +13,7 @@ namespace Cell
 		private const string P1 = "zerg";
 		private const string P2 = "stealer";
 		private const string P3 = "patient";
-		private const string P4 = "nothing";
+		private const string P4 = "marc";
 
 		static void Main(string[] args)
 		{
@@ -31,15 +31,15 @@ namespace Cell
 			var bot3 = new PatientBot();
 			bot3.SetPlayer(P3);
 
-			var bot4 = new DoNothingBot();
+			var bot4 = new MarcBot();
 			bot4.SetPlayer(P4);
 
 			var forts = new List<Fort>
 			{
 				new Fort { BirthSpeed = 1, BirthingType=GuyType.AVERAGE, ID = 1, FortOwner = P1, DefendingGuys = bot1.SetStartingArmy(), Location = new Point { X = 1, Y = 1 } },
-				new Fort { BirthSpeed = 1, BirthingType=GuyType.AVERAGE, ID = 2, FortOwner = P1, DefendingGuys = bot1.SetStartingArmy(), Location = new Point { X = 8, Y = 8 } },
+				new Fort { BirthSpeed = 1, BirthingType=GuyType.AVERAGE, ID = 2, FortOwner = P2, DefendingGuys = bot2.SetStartingArmy(), Location = new Point { X = 8, Y = 8 } },
 				new Fort { BirthSpeed = 1, BirthingType=GuyType.AVERAGE, ID = 3, FortOwner = P3, DefendingGuys = bot3.SetStartingArmy(), Location = new Point { X = 8, Y = 1 } },
-				new Fort { BirthSpeed = 1, BirthingType=GuyType.AVERAGE, ID = 4, FortOwner = P3, DefendingGuys = bot3.SetStartingArmy(), Location = new Point { X = 1, Y = 8 } },
+				new Fort { BirthSpeed = 1, BirthingType=GuyType.AVERAGE, ID = 4, FortOwner = P4, DefendingGuys = bot4.SetStartingArmy(), Location = new Point { X = 1, Y = 8 } },
 				new Fort { BirthSpeed = 1, BirthingType=GuyType.BEEFY, ID = 5, FortOwner = null, DefendingGuys = new List<Guy>(), Location = new Point { X = 4, Y = 4 } }
 			};
 
