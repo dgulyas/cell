@@ -81,10 +81,25 @@ namespace Cell
 
 		private void ValidateStartingArmies()
 		{
+			// cost is maximum between health, attach, and speed
+			int costLimit = 35;
+			int curCost = 0;
+			
 			foreach (var fort in Forts)
 			{
-				// TODO: add cost and max number guys rules here
+				foreach(var guy in fort.DefendingGuys)
+				{
+					curCost += Math.Max(Math.Max(guy.Health, guy.Speed), guy.Strength);
+				}
+
+				if (curCost > costLimit)
+				{
+					throw new System.ArgumentException("Army for " + fort.FortOwner + " is not valid");
+				}
+
+				curCost = 0;
 			}
+			
 		}
 
 		//This creates a 2 way mapping between player names and the bots.
