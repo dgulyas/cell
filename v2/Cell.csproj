@@ -55,6 +55,7 @@
     <Compile Include="GuyFactory.cs" />
     <Compile Include="IBot.cs" />
     <Compile Include="IGame.cs" />
+    <Compile Include="MapLibrary.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
