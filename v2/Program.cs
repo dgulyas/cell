@@ -10,28 +10,34 @@ namespace Cell
 {
 	class Program
 	{
+		private const string P1 = "p1";
+		private const string P2 = "p2";
+
 		static void Main(string[] args)
 		{
 			string _filePath = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory)).FullName).FullName;
 
 			var bot1 = new Bot1();
-			bot1.SetPlayer("p1");
+			bot1.SetPlayer(P1);
 
-			var bot2 = new Bot1();
-			bot2.SetPlayer("p2");
+			var bot2 = new Bot2();
+			bot2.SetPlayer(P2);
 
 			var forts = new List<Fort>
 			{
-				new Fort { BirthSpeed = 1, ID = 1, FortOwner = "p1", DefendingGuys = bot1.SetStartingArmy(), Location = new Point { X = 1, Y = 1 } },
-				new Fort { BirthSpeed = 1, ID = 2, FortOwner = "p2", DefendingGuys = bot2.SetStartingArmy(), Location = new Point { X = 8, Y = 8 } }
+				new Fort { BirthSpeed = 1, BirthingType=GuyType.AVERAGE, ID = 1, FortOwner = P1, DefendingGuys = bot1.SetStartingArmy(), Location = new Point { X = 1, Y = 1 } },
+				new Fort { BirthSpeed = 1, BirthingType=GuyType.AVERAGE, ID = 2, FortOwner = P2, DefendingGuys = bot2.SetStartingArmy(), Location = new Point { X = 8, Y = 8 } },
+				new Fort { BirthSpeed = 1, BirthingType=GuyType.ARMORED, ID = 3, FortOwner = null, DefendingGuys = new List<Guy>(), Location = new Point { X = 8, Y = 1 } },
+				new Fort { BirthSpeed = 1, BirthingType=GuyType.BEEFY, ID = 4, FortOwner = null, DefendingGuys = new List<Guy>(), Location = new Point { X = 1, Y = 8 } },
+				new Fort { BirthSpeed = 1, BirthingType=GuyType.RUNNER, ID = 5, FortOwner = null, DefendingGuys = new List<Guy>(), Location = new Point { X = 4, Y = 4 } }
 			};
 
 			var jsonForts = JsonConvert.SerializeObject(forts);
 
 			var players = new Dictionary<string, IBot>
 			{
-				{ "p1", bot1 },
-				{ "p2", bot2 }
+				{ P1, bot1 },
+				{ P2, bot2 }
 			};
 
 			var gameState = new StringBuilder();
