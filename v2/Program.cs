@@ -19,19 +19,13 @@ namespace Cell
 		{
 			string _filePath = Directory.GetParent(Directory.GetParent(System.IO.Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory)).FullName).FullName;
 
+
 			var bot1 = new ZergBot();
 			bot1.SetPlayer(P1);
-
-
-			var bot2 = new Bot1();
-
 			var bot2 = new FortStealerBot();
-
 			bot2.SetPlayer(P2);
-
 			var bot3 = new PatientBot();
 			bot3.SetPlayer(P3);
-
 			var bot4 = new DoNothingBot();
 			bot4.SetPlayer(P4);
 

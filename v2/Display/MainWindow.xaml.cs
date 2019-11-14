@@ -48,8 +48,8 @@ namespace Display
 
 			//LoadTestState();
 			InitializeComponent();
-			this.Height = (boards[0].Forts.Max(x => x.Location.Y)) * SCALINGFACTOR + 100;
-			this.Width = (boards[0].Forts.Max(x => x.Location.X)) * SCALINGFACTOR + 100;
+			this.Height = (boards[0].Forts.Max(x => x.Location.Y)) * SCALINGFACTOR + 150;
+			this.Width = (boards[0].Forts.Max(x => x.Location.X)) * SCALINGFACTOR + 150;
 
 
 		}
@@ -75,7 +75,7 @@ namespace Display
 
 		public void DrawFort(Fort fort)
 		{
-			int size = 25;
+			int size = 100;
 
 			var circle = new Ellipse();
 			circle.SetValue(Canvas.TopProperty, (double)(fort.Location.Y * SCALINGFACTOR));
@@ -93,14 +93,16 @@ namespace Display
 			}
 			Canvas.Children.Add(circle);
 
-			DrawText((fort.Location.X) * SCALINGFACTOR, (fort.Location.Y) * SCALINGFACTOR, fort.BirthSpeed.ToString(), Colors.Black);
-			DrawText((fort.Location.X) * SCALINGFACTOR , (fort.Location.Y) * SCALINGFACTOR - 15, fort.ID + ":" + fort.FortOwner, Colors.Black);
-			DrawText((fort.Location.X) * SCALINGFACTOR, (fort.Location.Y) * SCALINGFACTOR - 30, fort.DefendingGuys.Count.ToString(), Colors.Black);
+			DrawText((fort.Location.X) * SCALINGFACTOR, (fort.Location.Y) * SCALINGFACTOR - 45, "BirthType: " + fort.BirthingType.ToString(), Colors.Black);
+			DrawText((fort.Location.X) * SCALINGFACTOR, (fort.Location.Y) * SCALINGFACTOR - 15, "BirthRate: " + fort.BirthSpeed.ToString(), Colors.Black);
+			DrawText((fort.Location.X) * SCALINGFACTOR , (fort.Location.Y) * SCALINGFACTOR - 30, "Owner: " + fort.FortOwner, Colors.Black);
+			DrawText((fort.Location.X) * SCALINGFACTOR + size/4, (fort.Location.Y) * SCALINGFACTOR + size/4, "->: " + fort.DefendingGuys.Sum(g => g.Strength).ToString(), Colors.Black);
+			DrawText((fort.Location.X) * SCALINGFACTOR + size/4, (fort.Location.Y) * SCALINGFACTOR + size/4 + 15, "+: " + fort.DefendingGuys.Sum(g => g.Health).ToString(), Colors.Black);
 		}
 
 		public void DrawGuyGroup(GuyGroup gg)
 		{
-			int size = 10 * (int)(gg.Guys.Count / 10);
+			int size = Math.Min(10 * (int)(gg.Guys.Count), 40);
 			var square = new Rectangle();
 			int numTotalTicks = (int)distance(gg.SourceFort.Location, gg.DestinationFort.Location) / gg.Guys[0].Speed;
 			double tickRatio = (numTotalTicks - gg.TicksTillFinished) / (double)numTotalTicks;
@@ -115,6 +117,9 @@ namespace Display
 			square.StrokeThickness = 3;
 			square.Stroke = m_playerColorMapping[gg.GroupOwner];
 			Canvas.Children.Add(square);
+
+			DrawText(xLocation * SCALINGFACTOR, yLocation * SCALINGFACTOR -size/ 2 - 15, "->: " + gg.Guys.Sum(g => g.Strength).ToString(), Colors.Black);
+			DrawText(xLocation * SCALINGFACTOR, yLocation * SCALINGFACTOR - size / 2, "+: " + gg.Guys.Sum(g => g.Health).ToString(), Colors.Black);
 		}
 
 		private double distance(Cell.Point l1, Cell.Point l2)

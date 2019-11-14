@@ -26,7 +26,7 @@ namespace Display
 				{
 					wnd.currentBoard = b;
 					wnd.DrawBoardState();
-					Task.Delay(300).Wait();
+					Task.Delay(800).Wait();
 				}));
 			}
 
